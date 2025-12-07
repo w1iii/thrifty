@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Lemon&display=swap');
+body{
+    margin:0;
+    padding:0;
+}
+
+.navbar-container {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0.5rem;
+    background-color: #FDF0DB;
+    color: #78745F;
+    height:4rem;
+}
+
+.navlogo{
+    flex:1;
+    font-family: 'Lemon', cursive;
+    margin-left:2rem;
+}
+
+
+.navbuttons{
+    display:flex;
+    gap:1rem;
+    margin-right:2rem; 
+    color: #78745F;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}

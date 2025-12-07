@@ -1,0 +1,40 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lemon&display=swap');
+
+body{
+    background-image:url('../assets/bg.jpg');
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center;
+    height:200vh;
+}
+
+
+.main-container{
+    margin-top: 5rem;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.main-container h1{
+    font-family: "Lemon", cursive;
+    font-size:120px;
+    color: white;
+    margin-bottom: 0;
+}
+
+
+.main-container h2{
+    color:white;
+    margin-bottom: 4rem;
+}
+
+
+.main-container p{
+    font-size:22px;
+    width:50rem;
+    text-align:center;
+    color:white;
+}
