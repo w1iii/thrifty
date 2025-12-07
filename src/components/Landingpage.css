@@ -38,3 +38,33 @@ body{
     text-align:center;
     color:white;
 }
+
+.thrift-btn{
+    margin-top:8rem;
+    width:18rem;
+    height:3rem;
+    font-size:14px;
+    color:white;
+    background-color:#406A58;
+    border-radius:1rem;
+    border-style:none;
+    font-size:20px;
+    font-weight:600; 
+    transition:0.3s;
+}
+
+
+.thrift-btn:hover{
+    transition:0.3s;
+    background-color:#58937A;
+    color:whitesmoke;
+    width:18.5rem;
+    height:3.5rem;
+    cursor:pointer;
+}
+
+.browse-link{
+    margin-top:2rem;
+    color:white;
+    font-size: 18px;
+}
