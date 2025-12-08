@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding:1rem;
+  padding:3rem;
   border-right: 1px solid #fde68a;
 }
 
@@ -21,7 +21,7 @@
   display:flex;
   flex-direction: column;
   align-items:center;
-  margin-bottom: 6rem;
+  margin-bottom: 3rem;
   padding: 2rem;
   border-bottom: 2px solid #587655;
 }
@@ -68,11 +68,18 @@
 
 /* Footer Links */
 .footer-links {
+  font-size:30px;
   display: flex;
   flex-direction: column;
   margin:0;
   padding:0;
 }
+
+.footer-links h2{
+  font-size:16px;
+  padding:0.5rem;
+}
+
 
 /* Main Content */
 .main-content {
@@ -85,7 +92,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 6rem;
 }
 
 .search-container {
@@ -148,43 +155,6 @@
   align-items: center;
   justify-content: center;
   gap: 2rem;
-}
-
-/* Shapes */
-.shape-circle {
-  width: 8rem;
-  height: 8rem;
-  background-color: #d8b4fe;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.triangle {
-  width: 0;
-  height: 0;
-  border-left: 40px solid transparent;
-  border-right: 40px solid transparent;
-  border-bottom: 60px solid #c084fc;
-}
-
-.bottom-shapes {
-  display: flex;
-  gap: 2rem;
-}
-
-.star-svg {
-  width: 4rem;
-  height: 4rem;
-  fill: #c084fc;
-}
-
-.square {
-  width: 6rem;
-  height: 6rem;
-  background-color: #d8b4fe;
-  border-radius: 1rem;
 }
 
 .messages-icon{
