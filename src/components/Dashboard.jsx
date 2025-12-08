@@ -1,4 +1,4 @@
-import { User, Search } from 'lucide-react';
+import { User, Search, FolderHeart, ShoppingCart, Settings, HandHelping, LogOut, MessageCircleHeart  } from 'lucide-react';
 import './Dashboard.css';
 
 function Dashboard() {
@@ -16,16 +16,16 @@ function Dashboard() {
 
           {/* Navigation Links */}
           <nav className="nav-links">
-            <h2 className="nav-item">Saved items</h2>
-            <h2 className="nav-item">My orders</h2>
-            <h2 className="nav-item">Settings</h2>
+            <h2 className="nav-item"><FolderHeart />Saved items </h2>
+            <h2 className="nav-item"><ShoppingCart /> My orders</h2>
+            <h2 className="nav-item"><Settings /> Settings</h2>
           </nav>
         </div>
 
         {/* Footer Links */}
         <div className="footer-links">
-          <h2 className="nav-item">Help and support</h2>
-          <h2 className="nav-item">Logout</h2>
+          <h2 className="nav-item"><HandHelping /> Help and support</h2>
+          <h2 className="nav-item"><LogOut /> Logout</h2>
         </div>
       </div>
 
@@ -44,7 +44,7 @@ function Dashboard() {
               <Search size={24} />
             </button>
           </div>
-          <div className="inbox-text">messages / inbox</div>
+          <div className="inbox-text"><button><MessageCircleHeart className="messages-icon"/></button></div>
         </div>
 
         {/* Content Card with Shapes */}
