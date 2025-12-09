@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const signup = async (req, res) => {
-  const { formData } = req.body;
+  const { username, email, password } = req.body;
   
   // Validate all required fields
   if (!username || !password || !email) {
