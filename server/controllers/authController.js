@@ -1,9 +1,12 @@
 import pool from '../db/pool.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export const signup = async (req, res) => {
-  const { username, password, email } = req.body;
+  const { formData } = req.body;
   
   // Validate all required fields
   if (!username || !password || !email) {
@@ -164,5 +167,5 @@ export const login = async (req, res) => {
       error: "Server error during login" 
     });
   }
-}
 
+}
