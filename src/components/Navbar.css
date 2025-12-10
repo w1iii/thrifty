@@ -137,3 +137,11 @@ a{
 .modal-footer a:hover {
   color: #3a4a3a;
 }
+
+.error-login{
+  color: #f50000; 
+  display:flex;
+  justify-content:center;
+  margin:0;
+  padding:0;
+}

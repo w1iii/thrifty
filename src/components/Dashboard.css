@@ -9,11 +9,12 @@
 /* Sidebar */
 .sidebar {
   width: 14rem;
+  height: 100%;
   background-color: #fffbeb;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   padding:3rem;
+  gap:10rem;
   border-right: 1px solid #fde68a;
 }
 

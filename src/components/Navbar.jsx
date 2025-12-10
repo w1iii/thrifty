@@ -1,28 +1,51 @@
 // Navbar.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import "./Navbar.css";
 
 function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('')
+  const [identifier, setIdentifier] = useState('')
+  const [validLogin , setValidLogin] = useState(false)
+
+  const navigate = useNavigate()
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', { username, password });
+
+    try{
+      const res = await axios.post('http://localhost:5050/api/auth/login', { identifier, password })
+      console.log(res.data)
+      navigate('/dashboard')
+    }catch(err){
+      setValidLogin(true)
+      console.log(err)
+    }
   };
 
+  function handleClose(){
+    onClose()
+    setValidLogin(false)
+
+  }
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={handleClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>Login</h2>
 
         <div className="login-form">
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+          { validLogin && 
+            <p className="error-login">
+              Invalid username and password.
+            </p>
+          }
+          <input type="text"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
             placeholder="Username"
           />
 
@@ -49,19 +72,81 @@ function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
 }
 
 function SignupModal({ isOpen, onClose, onSwitchToLogin }) {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+
+  const styles = {
+  backdrop: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    background: "rgba(0,0,0,0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  modal: {
+    background: "white",
+    padding: "20px",
+    borderRadius: "8px",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
+    textAlign: "center",
+    minWidth: "300px"
+  }
+};
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Signup attempt:', { username, email, password });
+    const validEmail = email.includes('@')
+    const validPassword = password.length
+    
+    try{
+      if(!validEmail) {
+        setModalMessage("Enter a valid email address")
+        setShowModal(true)
+      }
+
+      if(validPassword < 5){
+        setModalMessage("Enter 6 characters password")
+        setShowModal(true)
+      }
+      const res = await axios.post('http://localhost:5050/api/auth/signup', {username, email,password})
+      navigate(0)
+
+    }catch(err){
+      if (err.response && err.response.status === 409) {
+        setModalMessage("User already exists!")
+        setShowModal(true)
+      }
+     else {
+        console.log(err);
+      }
+    }
+
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={() => {if(!showModal) onClose()}}>
+      {showModal && (
+        <div className="modal-backdrop" style={styles.backdrop}>
+          <div className="modal" style={styles.modal}>
+            <p>{modalMessage}</p>
+            <button onClick={() => setShowModal(false)}>OK</button>
+          </div>
+        </div>
+      )}
+
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>Sign Up</h2>
 
@@ -102,9 +187,15 @@ function SignupModal({ isOpen, onClose, onSwitchToLogin }) {
   );
 }
 
-function Navbar() {
+function Navbar({ openLoginModal }) {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
+
+  useEffect(() => {
+    if (openLoginModal){
+    setIsLoginOpen(true);
+    }}, [openLoginModal]
+  )
 
   const switchToSignup = () => {
     setIsLoginOpen(false);
