@@ -2,14 +2,19 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { CircleAlert} from 'lucide-react';
+import { useAuth } from '../authContext.jsx'
 import "./Navbar.css";
 
 function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
   const [password, setPassword] = useState('')
   const [identifier, setIdentifier] = useState('')
   const [validLogin , setValidLogin] = useState(false)
+  const { login } = useAuth()
 
   const navigate = useNavigate()
+
+
 
   if (!isOpen) return null;
 
@@ -19,6 +24,7 @@ function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
     try{
       const res = await axios.post('http://localhost:5050/api/auth/login', { identifier, password })
       console.log(res.data)
+      login(res.data.user, res.data.token)
       navigate('/dashboard')
     }catch(err){
       setValidLogin(true)
@@ -40,7 +46,7 @@ function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
         <div className="login-form">
           { validLogin && 
             <p className="error-login">
-              Invalid username and password.
+              <CircleAlert /> Invalid username and password.
             </p>
           }
           <input type="text"

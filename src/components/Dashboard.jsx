@@ -1,8 +1,10 @@
 import { User, Search, FolderHeart, ShoppingCart, Settings, HandHelping, LogOut, MessageCircleHeart  } from 'lucide-react';
+import { useAuth } from '../authContext.jsx'
 import Cards from './Cards.jsx'
 import './Dashboard.css';
 
 function Dashboard() {
+  const { user, logout } = useAuth()
   return (
     <>
       <div className="dashboard-container">
@@ -11,7 +13,7 @@ function Dashboard() {
         {/* Profile Section */}
         <div>
           <div className="profile-section">
-            <h1 className="profile-title">Name</h1>
+            <h1 className="profile-title">{user?.username}</h1>
             <User size={48} className="profile-icon" />
           </div>
 
