@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useState, useRef } from "react";
 import "./Cards.css";
+import Titlebar from './Titlebar.jsx'
 
 const items = [
   {
@@ -87,21 +88,12 @@ function Cards() {
   return (
     <div className="cards-page">
       {/* Header */}
-      <div className="header">
-        <div className="search-container">
-          <input placeholder="Search..." className="search-input" />
-          <button className="search-button">
-            <Search size={20} />
-          </button>
-        </div>
-        <MessageCircleHeart className="messages-icon" />
-      </div>
-
+      <Titlebar />
       {/* Cards */}
-      <div className="card-container">
+      <div className="home-card-container">
         <div
           ref={cardRef}
-          className={`card ${isDragging ? "dragging" : ""}`}
+          className={`center-card ${isDragging ? "dragging" : ""}`}
           style={{
             transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) rotate(${rotation}deg)`
           }}

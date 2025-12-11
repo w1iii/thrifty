@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { Routes, Route, Navigate } from "react-router-dom"
 import Landingpage from './components/Landingpage.jsx'
 import Dashboard from './components/Dashboard.jsx'
+import SavedItems from './pages/SavedItems.jsx'
 import { useAuth } from './authContext.jsx'
 
 const ProtectedRoute = ({ children }) => {
@@ -14,6 +14,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Landingpage />}/>
       <Route path="/dashboard" element={<Dashboard/>}/>
+      <Route path="/saveditems" element={<SavedItems/>}/>
     </Routes>
   )
 }

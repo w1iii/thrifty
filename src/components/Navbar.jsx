@@ -40,7 +40,7 @@ function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
 
   return (
     <div className="modal-overlay" onClick={handleClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content-form" onClick={(e) => e.stopPropagation()}>
         <h2>Login</h2>
 
         <div className="login-form">
@@ -153,7 +153,7 @@ function SignupModal({ isOpen, onClose, onSwitchToLogin }) {
         </div>
       )}
 
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content-form" onClick={(e) => e.stopPropagation()}>
         <h2>Sign Up</h2>
 
         <div className="login-form">

@@ -1,42 +1,15 @@
 .cards-page {
-  width: 100%;
+  width: 70%;
   padding: 1rem;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-
-.search-container {
-  display: flex;
-}
-
-.search-input {
-  padding: 0.5rem 1rem;
-  border: none;
-}
-
-.search-button {
-  padding: 0.5rem 1rem;
-  border-radius: 0 999px 999px 0;
-  border: none;
-  background: white;
-}
-
-.messages-icon {
-  width: 28px;
-  height: 28px;
-}
-
 /* Card */
-.card-container {
+.home-card-container {
   max-width: 420px;
   margin: auto;
 }
 
-.card {
+.center-card {
   background: white;
   border-radius: 24px;
   overflow: hidden;
