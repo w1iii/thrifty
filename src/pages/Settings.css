@@ -1,0 +1,210 @@
+/* Container */
+
+.settings-main-container{
+  display: flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:20rem;
+
+}
+.settings-container {
+  min-height: 100vh;
+  padding: 1.5rem;
+  width:100%;
+}
+
+.settings-wrapper {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+/* Header */
+.settings-header {
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  margin-bottom: 2rem;
+}
+
+.settings-title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  color: white;
+  margin: 0 0 0.5rem 0;
+}
+
+.settings-subtitle {
+  color: white;
+  margin: 0;
+}
+
+/* Sections */
+.settings-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.settings-section {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Section Header */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.section-icon {
+  color: #374151;
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Section Items */
+.section-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-item:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Setting Label */
+.setting-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.label-icon {
+  color: #6b7280;
+}
+
+.small-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.label-text {
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Setting Value */
+.setting-value {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.value-text {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.chevron-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #9ca3af;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  width: 3rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background-color: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-switch.active {
+  background-color: #10b981;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.toggle-switch.active .toggle-slider {
+  transform: translateX(1.5rem);
+}
+
+/* Logout Button */
+.logout-container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.logout-button {
+  padding: 0.75rem 2rem;
+  background-color: #ef4444;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #dc2626;
+}
+
+/* App Info */
+.app-info {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.copyright {
+  margin-top: 0.25rem;
+}

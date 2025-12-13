@@ -1,5 +1,7 @@
 // authContext.jsx
 import { createContext, useContext, useState } from "react";
+import { useEffect } from 'react'
+import axios from 'axios'
 
 const AuthContext = createContext(null);
 
@@ -7,10 +9,24 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
-  const login = (userData, tokenData) => {
-    setUser(userData);
-    setToken(tokenData);
-    localStorage.setItem("user", JSON.stringify(userData))
+  useEffect(() => {
+  const refresh = async () => {
+    try {
+      const res = await axios.post("http://localhost:5050/api/auth/refresh", { withCredentials: true });
+      setToken(res.data.accessToken);
+    } catch (err) {
+      setToken(null);
+    }
+  };
+  refresh();
+}, []);
+
+ 
+
+  const login = (user, token) => {
+    setUser(user);
+    setToken(token);
+    localStorage.setItem("user", JSON.stringify(user))
     localStorage.setItem("token", token) 
   };
 

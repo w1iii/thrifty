@@ -13,7 +13,6 @@ function Titlebar(){
             <Search size={20} />
           </button>
         </div>
-        <MessageCircleHeart className="messages-icon" />
       </div>
   )
 }

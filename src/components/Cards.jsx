@@ -1,13 +1,9 @@
 import {
-  Search,
   Heart,
   X,
-  MessageCircle,
-  MessageCircleHeart
 } from "lucide-react";
 import { useState, useRef } from "react";
 import "./Cards.css";
-import Titlebar from './Titlebar.jsx'
 
 const items = [
   {
@@ -51,8 +47,7 @@ function Cards() {
     const dy = y - dragStart.y;
     setDragOffset({ x: dx, y: dy });
 
-    if (dy < -100) setAction("message");
-    else if (dx > 50) setAction("save");
+    if (dx > 50) setAction("save");
     else if (dx < -50) setAction("skip");
     else setAction("");
   };
@@ -63,20 +58,27 @@ function Cards() {
 
     if (dragOffset.x > t) swipe("right");
     else if (dragOffset.x < -t) swipe("left");
-    else if (dragOffset.y < -t) swipe("up");
     else reset();
   };
 
-  const swipe = (dir) => {
-    if (dir === "left") setDragOffset({ x: -300, y: 0 });
-    if (dir === "right") setDragOffset({ x: 300, y: 0 });
-    if (dir === "up") setDragOffset({ x: 0, y: -600 });
+  function swipeRight() {
+      setDragOffset({ x: 300, y: 0 })
+      console.log('swiped right')
+      setTimeout(() => {
+        setCurrentIndex((p) => (p + 1) % items.length);
+        reset();
+      }, 300);
 
-    setTimeout(() => {
-      setCurrentIndex((p) => (p + 1) % items.length);
-      reset();
-    }, 300);
-  };
+  }
+  function swipeLeft() {
+      setDragOffset({ x: -300, y: 0 })
+      console.log('swiped left')
+      setTimeout(() => {
+        setCurrentIndex((p) => (p + 1) % items.length);
+        reset();
+      }, 300);
+
+  }
 
   const reset = () => {
     setDragOffset({ x: 0, y: 0 });
@@ -88,7 +90,10 @@ function Cards() {
   return (
     <div className="cards-page">
       {/* Header */}
-      <Titlebar />
+      <div className="header"> 
+        <h1 className="header-title"> Thrifty </h1>
+      </div>
+
       {/* Cards */}
       <div className="home-card-container">
         <div
@@ -130,13 +135,10 @@ function Cards() {
 
         {/* Actions */}
         <div className="actions">
-          <button onClick={() => swipe("left")} className="btn">
+          <button onClick={() => swipeLeft()} className="btn">
             <X className="icon red" />
           </button>
-          <button onClick={() => swipe("up")} className="btn large">
-            <MessageCircle className="icon blue" />
-          </button>
-          <button onClick={() => swipe("right")} className="btn">
+          <button onClick={() => swipeRight()} className="btn">
             <Heart className="icon green" />
           </button>
         </div>

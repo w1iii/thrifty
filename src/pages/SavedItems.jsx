@@ -2,7 +2,7 @@ import {
   Search,
   MessageCircleHeart
 } from "lucide-react";
-import '../components/Titlebar.jsx'
+import Titlebar from '../components/Titlebar.jsx'
 
 import { useState } from 'react';
 import Sidebar from '../components/Sidebar.jsx'
@@ -112,6 +112,7 @@ function SavedItems() {
           </div>
 
           {/* Zoomed Modal */}
+          {/* Zoomed Modal */}
           {selectedItem && (
             <div
               className="modal"
@@ -121,7 +122,14 @@ function SavedItems() {
                 className="modal-content"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="modal-card">
+                <button 
+                  className="close-button"
+                  onClick={() => setSelectedItem(null)}
+                >
+                  X
+                </button>
+                
+                <div className="modal-left">
                   <div className="modal-image-container">
                     <img
                       src={selectedItem.image}
@@ -129,18 +137,28 @@ function SavedItems() {
                       className="modal-image"
                     />
                   </div>
-                  <div className="modal-details">
-                    <h2 className="modal-title">
-                      {selectedItem.title}
-                    </h2>
-                    <div className="modal-info">
-                      <span className="modal-price">{selectedItem.price}</span>
-                      <span>•</span>
-                      <span className="modal-text">{selectedItem.size}</span>
-                      <span>•</span>
-                      <span className="modal-text">{selectedItem.condition}</span>
+                </div>
+                
+                <div className="modal-right">
+                  <div className="modal-actions-top">
+                    <button className="action-button">BUY</button>
+                    <button className="action-button">STEAL</button>
+                  </div>
+                  
+                  <div className="modal-details-box">
+                    <div className="details-content">
+                      <h2 className="modal-title">{selectedItem.title}</h2>
+                      <div className="modal-info">
+                        <span className="modal-price">{selectedItem.price}</span>
+                        <span>•</span>
+                        <span className="modal-text">{selectedItem.size}</span>
+                        <span>•</span>
+                        <span className="modal-text">{selectedItem.condition}</span>
+                      </div>
                     </div>
                   </div>
+                  
+                  <button className="message-button">MESSAGE</button>
                 </div>
               </div>
             </div>
@@ -153,3 +171,4 @@ function SavedItems() {
 };
 
 export default SavedItems
+

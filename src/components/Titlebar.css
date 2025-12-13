@@ -1,8 +1,9 @@
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 6rem;
+  justify-content:center;
+  margin-bottom: 3rem;
+  margin-top:3rem;
 }
 
 .search-container {

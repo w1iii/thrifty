@@ -23,14 +23,14 @@ function Sidebar() {
           <nav className="nav-links">
             <Link to="/dashboard" className="nav-link"><House /> Home </Link>
             <Link to="/saveditems" className="nav-link"><FolderHeart />Saved items </Link>
-            <h2 className="nav-item"><Settings /> Settings</h2>
+            <Link to="/settings" className="nav-link"><FolderHeart />Settings </Link>
           </nav>
         </div>
 
         {/* Footer Links */}
         <div className="footer-links">
           <h2 className="nav-item"><HandHelping /> Help and support</h2>
-          <h2 className="nav-item"><LogOut /> Logout</h2>
+          <Link to="/" className="nav-item"><LogOut /> Logout</Link>
         </div>
       </div>
     </>
