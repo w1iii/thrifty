@@ -25,45 +25,29 @@ function generateRefreshToken(user) {
 
 // ========== SIGNUP ==========
 export const signup = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { email, password, first_name, last_name, phone_number, city, state } = req.body;
 
-  if (!username || !password || !email) {
+  if (!password || !email) {
     return res.status(400).json({ error: "Please enter username, password, and email" });
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({ error: "Please enter a valid email address" });
-  }
-
-  if (username.length < 3) {
-    return res.status(400).json({ error: "Username must be at least 3 characters long" });
-  }
-
-  if (password.length < 6) {
-    return res.status(400).json({ error: "Password must be at least 6 characters long" });
-  }
-
   try {
-    const existingUsername = await pool.query("SELECT id FROM users WHERE username = $1", [username]);
-    if (existingUsername.rows.length > 0) {
-      return res.status(409).json({ error: "Username already exists" });
-    }
 
     const existingEmail = await pool.query("SELECT id FROM users WHERE email = $1", [email]);
     if (existingEmail.rows.length > 0) {
       return res.status(409).json({ error: "Email already registered" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const password_hash = await bcrypt.hash(password, 10);
+
 
     const insertUserQuery = `
-      INSERT INTO users (username, email, password, created_at)
-      VALUES ($1, $2, $3, NOW())
-      RETURNING id, username, email, created_at;
-    `;
+      INSERT INTO users (email, password_hash, first_name, last_name, phone_number, city, state)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING id, email, first_name, last_name;
+      `;
 
-    const newUser = await pool.query(insertUserQuery, [username, email, hashedPassword]);
+    const newUser = await pool.query(insertUserQuery, [email, password_hash, first_name, last_name, phone_number, city, state]);
 
     res.status(201).json({
       message: "User created successfully",
@@ -78,37 +62,38 @@ export const signup = async (req, res) => {
 
 // ========== LOGIN ==========
 export const login = async (req, res) => {
-  const { identifier, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!identifier || !password) {
-    return res.status(400).json({ error: "Please enter username/email and password" });
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
   }
 
   try {
-    const isEmail = identifier.includes('@');
-    const query = isEmail
-      ? "SELECT * FROM users WHERE email = $1"
-      : "SELECT * FROM users WHERE username = $1";
+    const query = "SELECT * FROM users WHERE email = $1";
+    const userRes = await pool.query(query, [email]);
 
-    const userRes = await pool.query(query, [identifier]);
     if (userRes.rows.length === 0) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: "Invalid email or password" });
     }
 
     const user = userRes.rows[0];
+    console.log("DB USER:", user);
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await bcrypt.compare(
+      password,
+      user.password_hash
+    );
+
     if (!isValidPassword) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: "Invalid email or password" });
     }
 
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
 
-    // Store refresh token in cookie
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
@@ -117,7 +102,6 @@ export const login = async (req, res) => {
       token: accessToken,
       user: {
         id: user.id,
-        username: user.username,
         email: user.email
       }
     });

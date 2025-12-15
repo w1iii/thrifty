@@ -35,9 +35,6 @@ function Settings() {
       icon: <Lock className="icon" />,
       items: [
         { label: 'Change Password', value: '' },
-        { label: 'Profile Visibility', value: 'Public' },
-        { label: 'Message Permissions', value: 'Everyone' },
-        { label: 'Blocked Users', value: '3 users' }
       ]
     },
     {
@@ -63,28 +60,7 @@ function Settings() {
         { label: 'Marketing Emails', value: 'Off' }
       ]
     },
-    {
-      title: 'Buying Preferences',
-      icon: <ShoppingBag className="icon" />,
-      items: [
-        { label: 'Payment Method', value: 'Visa •••• 4242' },
-        { label: 'Shipping Addresses', value: '2 saved' },
-        { label: 'Size Preferences', value: 'M, 32, 9' },
-        { label: 'Favorite Categories', value: '5 selected' },
-        { label: 'Price Range', value: '$0 - $200' }
-      ]
-    },
-    {
-      title: 'Selling Preferences',
-      icon: <Tag className="icon" />,
-      items: [
-        { label: 'Shipping Options', value: 'USPS, UPS' },
-        { label: 'Auto-Response', value: 'Enabled' },
-        { label: 'Listing Templates', value: '3 saved' },
-        { label: 'Payout Method', value: 'Bank Account' }
-      ]
-    },
-    
+ 
     {
       title: 'Support & Legal',
       icon: <HelpCircle className="icon" />,
