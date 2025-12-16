@@ -4,8 +4,8 @@
   align-items:center;
   justify-content:center;
   height: 100vh;
-  width:100%;
-  margin-left:10rem;
+  width:80%;
+  margin-left:18rem;
 }
 
 /* Sidebar */
@@ -14,7 +14,7 @@
   top: 0;
   left: 0;
   width: 16rem;
-  height: 100vh;
+  height: 90vh;
   background-color: #fffbeb;
   display: flex;
   flex-direction: column;
@@ -57,7 +57,7 @@
   gap: 0.75rem;
   width: 100%;
   margin: 0;
-  padding: 2rem 0.75rem;
+  padding: 1rem 0.5rem;
   padding-right: 0;
   border-radius: 0.5rem;
   color: #587655;
@@ -73,7 +73,7 @@
   gap: 0.75rem;
   width: 100%;
   margin: 0;
-  padding: 2rem 0.75rem;
+  padding: 1.5rem 0.75rem;
   padding-right: 0;
   border-radius: 0.5rem;
   color: #587655;

@@ -21,6 +21,24 @@ export function AuthProvider({ children }) {
   refresh();
 }, []);
 
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axios.get("http://localhost:5050/api/auth/getData",
+          {
+            headers: {
+               Authorization: `Bearer ${accessToken}`
+            },
+            withCredentials: true 
+          });
+        setUser(res.user.first_name)
+      } catch (err) {
+        setToken(null);
+      }
+    };
+}, []);
+
  
 
   const login = (user, token) => {

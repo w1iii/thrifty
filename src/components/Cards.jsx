@@ -65,6 +65,7 @@ function Cards() {
       setDragOffset({ x: 300, y: 0 })
       console.log('swiped right')
       setTimeout(() => {
+      console.log('swiped right')
         setCurrentIndex((p) => (p + 1) % items.length);
         reset();
       }, 300);

@@ -102,6 +102,7 @@ export const login = async (req, res) => {
       token: accessToken,
       user: {
         id: user.id,
+        username: user.first_name,
         email: user.email
       }
     });
@@ -129,7 +130,7 @@ export const refresh = async (req, res) => {
 
     // Fetch from PostgreSQL
     const userRes = await pool.query(
-      "SELECT id, username, email FROM users WHERE id = $1",
+      "SELECT id, email FROM users WHERE id = $1",
       [decoded.id]
     );
 
@@ -140,4 +141,34 @@ export const refresh = async (req, res) => {
     return res.json({ accessToken: newAccessToken });
   });
 };
+
+
+export const getData = async (req,res) => {
+  const userId = req.user.id;
+
+  const dataQuery = `
+    SELECT id, first_name, email, phone_number, city, state FROM users WHERE id = $1;  
+  `;
+  try{
+    const result = await pool.query(dataQuery, [userId]);
+
+    if(result.rows.length <= 0) return res.status(404).json({ error: 'user not found'});
+    // res.json(result.rows[0]);
+
+    const user = result.rows[0];
+    return res.status(200).json({
+      user: {
+        id: user.id,
+        username: user.first_name,
+        email: user.email,
+        phone_number: user.phone_number,
+        city: user.city,
+        state: user.state
+      }
+    });
+  }catch(err){
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
 

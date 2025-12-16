@@ -97,7 +97,7 @@ export default function SignupPage() {
 
   return (
     <>
-      <div className="header-signup"> thrifty </div>
+      <div className="header-signup"> <h1>Thrifty</h1> </div>
 
     <div className="signup-container">
       <div className="signup-wrapper">

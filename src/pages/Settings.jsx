@@ -3,12 +3,8 @@ import {
   User, 
   Lock, 
   Bell, 
-  ShoppingBag, 
-  Tag, 
-  Monitor, 
   HelpCircle,
   ChevronRight,
-  Globe
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar.jsx'
 import './Settings.css';
@@ -17,17 +13,39 @@ function Settings() {
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [emailNotifs, setEmailNotifs] = useState(true);
+  const [email, setEmail] = useState('');
+  const [phone_number, setPhonenumber] = useState('');
+  const [location, setLocation] = useState('');
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axios.get("http://localhost:5050/api/auth/getData", 
+          { 
+            headers: {
+              Authorization:`Bearer${accessToken}`
+            },
+            withCredentials: true 
+          });
+
+
+          
+      } catch (err) {
+        setToken(null);
+      }
+      getData()
+    }
+}, []);
 
   const settingSections = [
     {
       title: 'Account',
       icon: <User className="icon" />,
       items: [
-        { label: 'Profile Information', value: 'Edit' },
-        { label: 'Contact Details', value: 'john@email.com' },
-        { label: 'Location', value: 'New York, NY' },
+        { label: 'Email', value: 'john@email.com' },
+        { label: 'Phone number', value: '0912345678' },
         { label: 'Payment Methods', value: '2 cards' },
-        { label: 'Linked Accounts', value: 'Manage' }
+        { label: 'Location', value: 'New York, NY' }
       ]
     },
     {
