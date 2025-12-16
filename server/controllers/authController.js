@@ -123,7 +123,7 @@ export const logout = (req, res) => {
 export const refresh = async (req, res) => {
   const token = req.cookies.refreshToken;
 
-  if (!token) return res.sendStatus(401);
+  if (!token) return res.status(401);
 
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
     if (err) return res.sendStatus(403);
@@ -135,7 +135,7 @@ export const refresh = async (req, res) => {
     );
 
     const user = userRes.rows[0];
-    if (!user) return res.sendStatus(403);
+    if (!user) return res.status(403);
 
     const newAccessToken = generateAccessToken(user);
     return res.json({ accessToken: newAccessToken });
