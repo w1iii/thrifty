@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { 
   User, 
   Lock, 
@@ -7,15 +8,19 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar.jsx'
+import { useAuth } from '../authContext';
 import './Settings.css';
 
 function Settings() {
+  const { user, accessToken, logout } = useAuth();
+  
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [emailNotifs, setEmailNotifs] = useState(true);
   const [email, setEmail] = useState('');
   const [phone_number, setPhonenumber] = useState('');
   const [location, setLocation] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -23,29 +28,40 @@ function Settings() {
         const res = await axios.get("http://localhost:5050/api/auth/getData", 
           { 
             headers: {
-              Authorization:`Bearer${accessToken}`
+              Authorization: `Bearer ${accessToken}`
             },
             withCredentials: true 
           });
-
-
-          
+        
+        // Update state with fetched data
+        setEmail(res.data.email || '');
+        setPhonenumber(res.data.phone_number || '');
+        setLocation(res.data.location || '');
+        
       } catch (err) {
-        setToken(null);
+        console.error('Error fetching user data:', err);
+        logout();
+      } finally {
+        setIsLoading(false);
       }
-      getData()
+    };
+
+    if (accessToken) {
+      getData();
+    } else {
+      setIsLoading(false);
     }
-}, []);
+  }, [accessToken, logout]);
 
   const settingSections = [
     {
       title: 'Account',
       icon: <User className="icon" />,
       items: [
-        { label: 'Email', value: 'john@email.com' },
-        { label: 'Phone number', value: '0912345678' },
+        { label: 'Email', value: user.email },
+        { label: 'Phone number', value: user.phone_number },
         { label: 'Payment Methods', value: '2 cards' },
-        { label: 'Location', value: 'New York, NY' }
+        { label: 'Location', value: user.location }
       ]
     },
     {
@@ -78,7 +94,6 @@ function Settings() {
         { label: 'Marketing Emails', value: 'Off' }
       ]
     },
- 
     {
       title: 'Support & Legal',
       icon: <HelpCircle className="icon" />,
@@ -93,10 +108,13 @@ function Settings() {
     }
   ];
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <>
       <div className="settings-main-container">
-
         <Sidebar />
         <div className="settings-container">
           <div className="settings-wrapper">
@@ -159,7 +177,7 @@ function Settings() {
 
             {/* Logout Button */}
             <div className="logout-container">
-              <button className="logout-button">Log Out</button>
+              <button onClick={logout} className="logout-button">Log Out</button>
             </div>
 
             {/* App Info */}
@@ -174,4 +192,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default Settings
