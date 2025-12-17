@@ -7,68 +7,50 @@ import {
   HelpCircle,
   ChevronRight,
 } from 'lucide-react';
-import Sidebar from '../components/Sidebar.jsx'
+import Sidebar from '../components/Sidebar.jsx';
+import ChangePasswordModal from '../components/ChangePasswordModal.jsx';
 import { useAuth } from '../authContext';
 import './Settings.css';
 
 function Settings() {
-  const { user, accessToken, logout } = useAuth();
+  const { user, token, logout } = useAuth();
   
-  const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [emailNotifs, setEmailNotifs] = useState(true);
-  const [email, setEmail] = useState('');
-  const [phone_number, setPhonenumber] = useState('');
-  const [location, setLocation] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await axios.get("http://localhost:5050/api/auth/getData", 
-          { 
-            headers: {
-              Authorization: `Bearer ${accessToken}`
-            },
-            withCredentials: true 
-          });
-        
-        // Update state with fetched data
-        setEmail(res.data.email || '');
-        setPhonenumber(res.data.phone_number || '');
-        setLocation(res.data.location || '');
-        
-      } catch (err) {
-        console.error('Error fetching user data:', err);
-        logout();
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (accessToken) {
-      getData();
-    } else {
-      setIsLoading(false);
-    }
-  }, [accessToken, logout]);
+  // Show login message if not authenticated
+  if (!user || !token) {
+    return (
+      <div className="settings-main-container">
+        <Sidebar />
+        <div className="settings-container">
+          <p>Please log in to access settings.</p>
+        </div>
+      </div>
+    );
+  }
 
   const settingSections = [
     {
       title: 'Account',
       icon: <User className="icon" />,
       items: [
-        { label: 'Email', value: user.email },
-        { label: 'Phone number', value: user.phone_number },
+        { label: 'Email', value: user.email || '' },
+        { label: 'Phone number', value: user.phone_number || '' },
         { label: 'Payment Methods', value: '2 cards' },
-        { label: 'Location', value: user.location }
+        { label: 'Location', value: user.location || '' }
       ]
     },
     {
       title: 'Privacy & Security',
       icon: <Lock className="icon" />,
       items: [
-        { label: 'Change Password', value: '' },
+        { 
+          label: 'Change Password', 
+          value: '',
+          action: 'changePassword'
+        },
       ]
     },
     {
@@ -108,9 +90,11 @@ function Settings() {
     }
   ];
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  const handleSettingClick = (item) => {
+    if (item.action === 'changePassword') {
+      setPasswordModalOpen(true);
+    }
+  };
 
   return (
     <>
@@ -141,7 +125,11 @@ function Settings() {
                   {/* Section Items */}
                   <div className="section-items">
                     {section.items.map((item, itemIdx) => (
-                      <div key={itemIdx} className="setting-item">
+                      <div 
+                        key={itemIdx} 
+                        className={`setting-item ${item.action ? 'clickable' : ''}`}
+                        onClick={() => item.action && handleSettingClick(item)}
+                      >
                         <div className="setting-label">
                           {item.icon && <div className="label-icon">{item.icon}</div>}
                           <span className="label-text">
@@ -152,7 +140,10 @@ function Settings() {
                         <div className="setting-value">
                           {item.toggle ? (
                             <button
-                              onClick={() => item.setState(!item.state)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                item.setState(!item.state);
+                              }}
                               className={`toggle-switch ${item.state ? 'active' : ''}`}
                             >
                               <div className="toggle-slider" />
@@ -188,8 +179,18 @@ function Settings() {
           </div>
         </div>
       </div>
+
+      {/* Change Password Modal */}
+      <ChangePasswordModal 
+        isOpen={passwordModalOpen}
+        onClose={() => setPasswordModalOpen(false)}
+        accessToken={token}
+        onSuccess={() => {
+          // Optional: Show success toast or handle after password change
+        }}
+      />
     </>
   );
 }
 
-export default Settings
+export default Settings;
