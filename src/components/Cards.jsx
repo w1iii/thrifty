@@ -179,7 +179,7 @@ function Cards() {
             <div className="meta">
               <span className="price">{currentItem.price}</span>
               <span className="badge">Size {currentItem.size}</span>
-              <span className="badge">{currentItem.description}</span>
+              <span className="badge">{currentItem.gender}</span>
             </div>
           </div>
         </div>

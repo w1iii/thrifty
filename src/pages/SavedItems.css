@@ -228,3 +228,36 @@
 .message-button:hover {
   background-color: #d4d4d4;
 }
+
+
+.no-items-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 50px 20px;
+  color: #555;
+}
+
+.no-items-image {
+  width: 150px;
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+
+.browse-button {
+  margin-top: 20px;
+  padding: 10px 25px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.browse-button:hover {
+  background-color: #45a049;
+}
+
