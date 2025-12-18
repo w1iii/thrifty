@@ -1,9 +1,11 @@
 import {
   Heart,
   X,
-} from "lucide-react";
-import { useState, useRef } from "react";
-import "./Cards.css";
+} from "lucide-react"
+import { useState, useRef } from "react"
+import "./Cards.css"
+import { useEffect } from 'react'
+import axios from 'axios'
 
 const items = [
   {
@@ -27,14 +29,28 @@ const items = [
 ];
 
 function Cards() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [action, setAction] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const [action, setAction] = useState("")
+  // const [items, setItems] = useState({})
+
 
   const cardRef = useRef(null);
   const currentItem = items[currentIndex];
+
+  useEffect(()=>{
+    const getItems = async () => {
+      try{
+        const res = await axios.get('http://localhost:5050/api/items')
+        console.log(res.data) 
+      }catch(err){
+        console.log(err)
+      }
+    }
+    getItems()
+  },[])
 
   const handleStart = (x, y) => {
     setIsDragging(true);
@@ -62,18 +78,31 @@ function Cards() {
   };
 
   function swipeRight() {
-      setDragOffset({ x: 300, y: 0 })
-      console.log('swiped right')
-      setTimeout(() => {
-      console.log('swiped right')
-        setCurrentIndex((p) => (p + 1) % items.length);
-        reset();
-      }, 300);
-
+    console.log('swiped right')
+    console.log(currentItem)
+    // try{
+    //
+    //
+    // }catch(err){
+    //
+    // }
+    setDragOffset({ x: 300, y: 0 })
+    setTimeout(() => {
+      setCurrentIndex((p) => (p + 1) % items.length);
+      reset();
+    }, 300);
   }
+
   function swipeLeft() {
-      setDragOffset({ x: -300, y: 0 })
-      console.log('swiped left')
+    setDragOffset({ x: -300, y: 0 })
+    console.log('swiped left')
+    console.log(currentItem)
+    // try{
+    //
+    //
+    // }catch(err){
+    //
+    // }
       setTimeout(() => {
         setCurrentIndex((p) => (p + 1) % items.length);
         reset();

@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors'; // Optional but helpful
 import bodyParser from 'body-parser'
 import authRoutes from './routes/authRoutes.js'; // Your routes
+import itemRoutes from './routes/itemRoutes.js';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -30,8 +31,9 @@ app.use(bodyParser.json()); // Parse JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 
-// Your routes
-app.use('/api/auth', authRoutes); // Example: http://localhost:5000/api/auth/signup
+// routes
+app.use('/api/auth', authRoutes); 
+app.use('/api/items', itemRoutes);
 
 // Basic route to test server
 app.get('/', (req, res) => {

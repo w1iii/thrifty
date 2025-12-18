@@ -88,7 +88,7 @@ function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content-password" onClick={(e) => e.stopPropagation()}>
         {/* Modal Header */}
         <div className="modal-header">
           <h2>Change Password</h2>
