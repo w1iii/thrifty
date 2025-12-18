@@ -34,23 +34,44 @@ function Cards() {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const [action, setAction] = useState("")
-  // const [items, setItems] = useState({})
+  const [itemData, setItems] = useState([])
 
 
+  const currentItem = itemData[currentIndex];
   const cardRef = useRef(null);
-  const currentItem = items[currentIndex];
+  // const currentItem = items[currentIndex];
 
   useEffect(()=>{
     const getItems = async () => {
       try{
         const res = await axios.get('http://localhost:5050/api/items')
-        console.log(res.data) 
+        setItems(res.data)
       }catch(err){
         console.log(err)
       }
     }
     getItems()
   },[])
+
+  useEffect(() => {
+  console.log('itemData updated:', itemData);
+}, [itemData]);
+
+  if (!currentItem) {
+  return (
+    <div className="cards-page">
+      <div className="header">
+        <h1 className="header-title"> Thrifty </h1>
+      </div>
+
+      <div className="home-card-container">
+        <p style={{ textAlign: "center" }}>Loading items...</p>
+      </div>
+    </div>
+  );
+}
+
+
 
   const handleStart = (x, y) => {
     setIsDragging(true);
@@ -88,7 +109,7 @@ function Cards() {
     // }
     setDragOffset({ x: 300, y: 0 })
     setTimeout(() => {
-      setCurrentIndex((p) => (p + 1) % items.length);
+      setCurrentIndex((p) => (p + 1) % itemData.length);
       reset();
     }, 300);
   }
@@ -104,7 +125,7 @@ function Cards() {
     //
     // }
       setTimeout(() => {
-        setCurrentIndex((p) => (p + 1) % items.length);
+        setCurrentIndex((p) => (p + 1) % itemData.length);
         reset();
       }, 300);
 
@@ -144,7 +165,7 @@ function Cards() {
           }
           onTouchEnd={handleEnd}
         >
-          <img src={currentItem.image} className="card-image" />
+          <img src={currentItem.image_url} className="card-image" />
 
           {action === "save" && <div className="overlay save">SAVE</div>}
           {action === "skip" && <div className="overlay skip">SKIP</div>}
@@ -154,11 +175,11 @@ function Cards() {
 
           <div className="gradient" />
           <div className="info">
-            <h2>{currentItem.name}</h2>
+            <h2>{currentItem.title}</h2>
             <div className="meta">
               <span className="price">{currentItem.price}</span>
               <span className="badge">Size {currentItem.size}</span>
-              <span className="badge">{currentItem.condition}</span>
+              <span className="badge">{currentItem.description}</span>
             </div>
           </div>
         </div>
