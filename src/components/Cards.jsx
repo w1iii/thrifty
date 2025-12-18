@@ -7,26 +7,6 @@ import "./Cards.css"
 import { useEffect } from 'react'
 import axios from 'axios'
 
-const items = [
-  {
-    id: 1,
-    name: "Vintage Denim Jacket",
-    price: "$45",
-    size: "M",
-    condition: "Like New",
-    image:
-      "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=600&fit=crop",
-  },
-  {
-    id: 2,
-    name: "Oversized Sweater",
-    price: "$28",
-    size: "L",
-    condition: "Good",
-    image:
-      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=600&fit=crop",
-  },
-];
 
 function Cards() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -36,10 +16,8 @@ function Cards() {
   const [action, setAction] = useState("")
   const [itemData, setItems] = useState([])
 
-
   const currentItem = itemData[currentIndex];
   const cardRef = useRef(null);
-  // const currentItem = items[currentIndex];
 
   useEffect(()=>{
     const getItems = async () => {
@@ -54,24 +32,36 @@ function Cards() {
   },[])
 
   useEffect(() => {
-  console.log('itemData updated:', itemData);
-}, [itemData]);
+    console.log('itemData updated:', itemData);
+  }, [itemData]);
+
+  if (itemData.length === 0) {
+    return (
+      <div className="cards-page">
+        <div className="header">
+          <h1 className="header-title"> Thrifty </h1>
+        </div>
+
+        <div className="home-card-container">
+          <p style={{ textAlign: "center" }}>No items available</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!currentItem) {
-  return (
-    <div className="cards-page">
-      <div className="header">
-        <h1 className="header-title"> Thrifty </h1>
+    return (
+      <div className="cards-page">
+        <div className="header">
+          <h1 className="header-title"> Thrifty </h1>
+        </div>
+
+        <div className="home-card-container">
+          <p style={{ textAlign: "center" }}>Loading items...</p>
+        </div>
       </div>
-
-      <div className="home-card-container">
-        <p style={{ textAlign: "center" }}>Loading items...</p>
-      </div>
-    </div>
-  );
-}
-
-
+    );
+  }
 
   const handleStart = (x, y) => {
     setIsDragging(true);
@@ -93,42 +83,85 @@ function Cards() {
     setIsDragging(false);
     const t = 100;
 
-    if (dragOffset.x > t) swipe("right");
-    else if (dragOffset.x < -t) swipe("left");
+    if (dragOffset.x > t) swipeRight();
+    else if (dragOffset.x < -t) swipeLeft();
     else reset();
   };
 
-  function swipeRight() {
-    console.log('swiped right')
-    console.log(currentItem)
-    // try{
-    //
-    //
-    // }catch(err){
-    //
-    // }
-    setDragOffset({ x: 300, y: 0 })
+  async function swipeRight() {
+    console.log('swiped right');
+    console.log(currentItem);
+    
+    try {
+      const res = await axios.post(
+        'http://localhost:5050/api/swipes',
+        {
+          item_id: currentItem.id,
+          action: 'liked'
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      );
+      
+      if (res.status === 201) {
+        console.log('Saved item:', res.data);
+      } else if (res.status === 409) {
+        console.log('Already swiped on this item');
+      }
+    } catch(err) {
+      if (err.response?.status === 409) {
+        console.log('Duplicate swipe - already swiped on this item');
+      } else {
+        console.error('Error saving item:', err);
+      }
+    }
+
+    setDragOffset({ x: 300, y: 0 });
     setTimeout(() => {
       setCurrentIndex((p) => (p + 1) % itemData.length);
       reset();
     }, 300);
   }
 
-  function swipeLeft() {
-    setDragOffset({ x: -300, y: 0 })
-    console.log('swiped left')
-    console.log(currentItem)
-    // try{
-    //
-    //
-    // }catch(err){
-    //
-    // }
-      setTimeout(() => {
-        setCurrentIndex((p) => (p + 1) % itemData.length);
-        reset();
-      }, 300);
+  async function swipeLeft() {
+    console.log('swiped left');
+    console.log(currentItem);
+    
+    try {
+      const res = await axios.post(
+        'http://localhost:5050/api/swipes',
+        {
+          item_id: currentItem.id,
+          action: 'skipped'
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      );
+      
+      if (res.status === 201) {
+        console.log('Skipped item:', res.data);
+      } else if (res.status === 409) {
+        console.log('Already swiped on this item');
+      }
+    } catch(err) {
+      if (err.response?.status === 409) {
+        console.log('Duplicate swipe - already swiped on this item');
+      } else {
+        console.error('Error skipping item:', err);
+      }
+    }
 
+    setDragOffset({ x: -300, y: 0 });
+    setTimeout(() => {
+      setCurrentIndex((p) => (p + 1) % itemData.length);
+      reset();
+    }, 300);
   }
 
   const reset = () => {
@@ -199,4 +232,3 @@ function Cards() {
 }
 
 export default Cards;
-
