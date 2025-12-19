@@ -6,9 +6,11 @@ import { useState, useRef } from "react"
 import "./Cards.css"
 import { useEffect } from 'react'
 import axios from 'axios'
+import { useAuth } from '../authContext';
 
 
 function Cards() {
+  const { token } = useAuth();
   const [currentIndex, setCurrentIndex] = useState(0)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
@@ -22,7 +24,11 @@ function Cards() {
   useEffect(()=>{
     const getItems = async () => {
       try{
-        const res = await axios.get('http://localhost:5050/api/items')
+        const res = await axios.get('http://localhost:5050/api/items', {
+          headers:{
+          Authorization: `Bearer ${token}`,
+          }
+        })
         setItems(res.data)
       }catch(err){
         console.log(err)
@@ -94,7 +100,7 @@ function Cards() {
     
     try {
       const res = await axios.post(
-        'http://localhost:5050/api/swipes',
+        'http://localhost:5050/api/items/swipe',
         {
           item_id: currentItem.id,
           action: 'liked'
@@ -132,7 +138,7 @@ function Cards() {
     
     try {
       const res = await axios.post(
-        'http://localhost:5050/api/swipes',
+        'http://localhost:5050/api/items/swipe',
         {
           item_id: currentItem.id,
           action: 'skipped'

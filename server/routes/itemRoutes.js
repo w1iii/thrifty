@@ -4,7 +4,7 @@ import  authenticateToken  from '../middleware/authenticateToken.js';
 
 const router = express.Router();
 
-router.get('/', getItems);
+router.get('/', authenticateToken, getItems);
 router.get('/saved', authenticateToken, getSavedItems);
 router.post('/swipe', authenticateToken, saveSwipe);
 router.post('/createItem', authenticateToken, createItem); // protected

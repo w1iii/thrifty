@@ -2,24 +2,30 @@ import pool from '../db/pool.js';
 
 export const getItems = async (req, res) => {
   try {
-    const userId = req.user.id; // from JWT middleware
-    
+    const userId = req.user.id;
+
     const result = await pool.query(
       `
-      SELECT * FROM items 
-      WHERE id NOT IN (
-        SELECT item_id FROM swipes WHERE user_id = $1
+      SELECT *
+      FROM items i
+      WHERE NOT EXISTS (
+        SELECT 1
+        FROM swipes s
+        WHERE s.user_id = $1
+          AND s.item_id = i.id
       )
-      ORDER BY created_at DESC
+      ORDER BY i.created_at DESC
       `,
       [userId]
     );
+
     res.json(result.rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to fetch items' });
   }
 };
+
 
 export const getSavedItems = async (req, res) => {
   try {
