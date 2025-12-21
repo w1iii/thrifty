@@ -225,10 +225,10 @@ function Cards() {
 
         {/* Actions */}
         <div className="actions">
-          <button onClick={() => swipeLeft()} className="btn">
+          <button onClick={() => swipeLeft()} className="cards-btn">
             <X className="icon red" />
           </button>
-          <button onClick={() => swipeRight()} className="btn">
+          <button onClick={() => swipeRight()} className="cards-btn">
             <Heart className="icon green" />
           </button>
         </div>

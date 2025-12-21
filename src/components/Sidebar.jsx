@@ -23,7 +23,7 @@ function Sidebar() {
           <nav className="nav-links">
             <Link to="/dashboard" className="nav-link"><House /> Home </Link>
             <Link to="/saveditems" className="nav-link"><FolderHeart />Saved items </Link>
-            <Link to="/settings" className="nav-link"><PhilippinePeso />Sell an item </Link>
+            <Link to="/sellItems" className="nav-link"><PhilippinePeso />Sell an item </Link>
             <Link to="/settings" className="nav-link"><Settings />Settings </Link>
           </nav>
         </div>
