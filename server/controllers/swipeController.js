@@ -1,10 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import pool from '../db/pool.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
 import axios from 'axios';
 
-dotenv.config();
 
 // export const saveItem = (req,res) => {
 //   const { item } = req.body;
