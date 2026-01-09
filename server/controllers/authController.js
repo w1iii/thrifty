@@ -2,7 +2,6 @@ import pool from '../db/pool.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
-import axios from 'axios';
 
 dotenv.config();
 
@@ -10,7 +9,7 @@ dotenv.config();
 function generateAccessToken(user) {
   return jwt.sign(
     { id: user.id, username: user.username, email: user.email },
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET || "JWTSECRET",
     { expiresIn: "15m" }
   );
 }
@@ -18,7 +17,7 @@ function generateAccessToken(user) {
 function generateRefreshToken(user) {
   return jwt.sign(
     { id: user.id },
-    process.env.REFRESH_TOKEN_SECRET,
+    process.env.REFRESH_TOKEN_SECRET || "JWTSECRET",
     { expiresIn: "7d" }
   );
 }

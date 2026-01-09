@@ -9,9 +9,8 @@ export default function SellItemPage() {
     description: '',
     price: '',
     category: '',
-    condition: '',
     size: '',
-    color: '',
+    gender: '',
     image: null,
   });
 
@@ -40,12 +39,24 @@ export default function SellItemPage() {
     setFormData(prev => ({ ...prev, image: null }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!formData.itemName || !formData.price || !formData.category) {
       alert('Please fill in all required fields');
       return;
     }
+
+    try{
+      const response = await axios.post("http://localhost:5050/api/items/createItem", { title: formData.itemName, description: formData.description,  price: formData.price, category: formData.category, size: formData.size, gender: formData.gender, image_url: formdata.image})
+      if (!response) return console.log("error server")
+      alert('Item successfully added')
+      console.log(response.data)
+
+    }catch(err){
+      console.log(err)
+    }
     setSubmitted(true);
+    // submit backend
+    
     setTimeout(() => {
       setSubmitted(false);
       setFormData({
@@ -53,9 +64,8 @@ export default function SellItemPage() {
         description: '',
         price: '',
         category: '',
-        condition: '',
         size: '',
-        color: '',
+        gender: '',
         image: null,
       });
       setImagePreview(null);
@@ -178,24 +188,6 @@ export default function SellItemPage() {
             </select>
           </div>
 
-          {/* Condition */}
-          <div className="form-group">
-            <label className="form-label">Condition</label>
-            <select
-              name="condition"
-              value={formData.condition}
-              onChange={handleInputChange}
-              className="form-select"
-            >
-              <option value="">Select condition</option>
-              <option value="like-new">Like New</option>
-              <option value="excellent">Excellent</option>
-              <option value="good">Good</option>
-              <option value="fair">Fair</option>
-              <option value="worn">Worn</option>
-            </select>
-          </div>
-
           {/* Size and Color */}
           <div className="form-row">
             <div className="form-group">
@@ -210,15 +202,18 @@ export default function SellItemPage() {
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Color</label>
-              <input
-                type="text"
-                name="color"
-                value={formData.color}
-                onChange={handleInputChange}
-                placeholder="e.g., Black, Navy"
-                className="form-input"
-              />
+              <label className="form-label">Gender</label>
+              <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+              className="form-select"
+            >
+              <option value="">Select gender</option>
+              <option value="clothing">Male</option>
+              <option value="shoes">Female</option>
+              <option value="accessories">Unisex</option>
+            </select>
             </div>
           </div>
 

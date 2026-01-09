@@ -56,15 +56,15 @@ export const getSavedItems = async (req, res) => {
 };
 
 export const createItem = async (req, res) => {
-  const { title, price, size, gender, image_url } = req.body;
+  const { title, description, price, category, size, gender, image_url } = req.body;
   try {
     const result = await pool.query(
       `
-      INSERT INTO items (title, price, size, gender, image_url)
+      INSERT INTO items (title, description, price, category, size, gender, image_url)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *
       `,
-      [title, price, size, gender, image_url]
+      [title, description, price, category, size, gender, image_url]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -112,3 +112,20 @@ export const saveSwipe = async (req, res) => {
     res.status(500).json({ error: 'Failed to save swipe' });
   }
 };
+
+
+export const sellItem = async(req,res) => {
+  const { item_name, description, price, category, size, gender, image } = req.body;
+  if ( !item_name, !description, !price, !category, !size, !gender, !image ) return res.status(404).json({error: "item details incomplete"});
+
+  const query = `
+    INSERT INTO items (title, description, image_url, category, price, size, gender)
+    VALUES ($1, $2, %3, $4, $5, $6, $7)
+    RETURNING *;
+  `
+
+  const result = await pool.query(query, [ item_name, description, price, category, size, gender, image ])
+  if(!result) return console.log("add item failed")
+
+  
+}
