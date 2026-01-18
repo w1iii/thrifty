@@ -15,29 +15,28 @@ const PORT = process.env.PORT || 5050;
 
 const corsOptions = {
   origin: 'http://localhost:5173', 
-  credentials: true, // Allow credentials
+  credentials: true, 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 200
 };
 
-// ⚠️ MUST HAVE THESE MIDDLEWARES:
-app.use(cors(corsOptions)); // Enable CORS for all routes
+app.use(cors(corsOptions)); 
 
-app.use(express.json()); // Parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
 app.use(cookieParser());
 
-app.use(bodyParser.json()); // Parse JSON bodies
-app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true })); 
 
+console.log(process.env.JWT_SECRET)
 
 // routes
 app.use('/api/auth', authRoutes); 
 app.use('/api/items', itemRoutes);
 
-// Basic route to test server
 app.get('/', (req, res) => {
   res.json({ message: 'Server is running' });
 });

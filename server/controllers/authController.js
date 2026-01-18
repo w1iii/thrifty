@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
 function generateAccessToken(user) {
   return jwt.sign(
     { id: user.id, username: user.username, email: user.email },
-    process.env.JWT_SECRET ,
+    process.env.JWT_SECRET || '',
     { expiresIn: "15m" }
   );
 }
@@ -87,7 +87,13 @@ export const login = async (req, res) => {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    const accessToken = generateAccessToken(user);
+    let accessToken
+    try {
+      accessToken = generateAccessToken(user);
+    } catch(e){
+      console.error("Access Token Generation Failed:", e);
+      return res.status(500).json({error:"Access Token Generation Failed"});
+    }
     const refreshToken = generateRefreshToken(user);
 
     res.cookie("refreshToken", refreshToken, {
