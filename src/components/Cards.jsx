@@ -1,40 +1,76 @@
 import {
   Heart,
   X,
+  RefreshCw
 } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useAuth } from "../authContext";
+import axios from "axios";
 import "./Cards.css";
 
-const items = [
-  {
-    id: 1,
-    name: "Vintage Denim Jacket",
-    price: "$45",
-    size: "M",
-    condition: "Like New",
-    image:
-      "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=600&fit=crop",
-  },
-  {
-    id: 2,
-    name: "Oversized Sweater",
-    price: "$28",
-    size: "L",
-    condition: "Good",
-    image:
-      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=600&fit=crop",
-  },
-];
-
 function Cards() {
+  const { token } = useAuth();
+  const [items, setItems] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [action, setAction] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const cardRef = useRef(null);
-  const currentItem = items[currentIndex];
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const fetchItems = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get("http://localhost:5050/api/swipe/items", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setItems(res.data);
+      setCurrentIndex(0);
+    } catch (err) {
+      console.error("Failed to fetch items:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSwipe = async (swipeAction) => {
+    const currentItem = items[currentIndex];
+    if (!currentItem) return;
+
+    try {
+      await axios.post(
+        "http://localhost:5050/api/swipe/swipe",
+        { itemId: currentItem.id, action: swipeAction },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    } catch (err) {
+      console.error("Failed to record swipe:", err);
+    }
+  };
+
+  const swipeRight = async () => {
+    setDragOffset({ x: 300, y: 0 });
+    await handleSwipe("liked");
+    setTimeout(() => {
+      setCurrentIndex((p) => p + 1);
+      reset();
+    }, 300);
+  };
+
+  const swipeLeft = async () => {
+    setDragOffset({ x: -300, y: 0 });
+    await handleSwipe("passed");
+    setTimeout(() => {
+      setCurrentIndex((p) => p + 1);
+      reset();
+    }, 300);
+  };
 
   const handleStart = (x, y) => {
     setIsDragging(true);
@@ -44,8 +80,7 @@ function Cards() {
   const handleMove = (x, y) => {
     if (!isDragging) return;
     const dx = x - dragStart.x;
-    const dy = y - dragStart.y;
-    setDragOffset({ x: dx, y: dy });
+    setDragOffset({ x: dx, y: y - dragStart.y });
 
     if (dx > 50) setAction("save");
     else if (dx < -50) setAction("skip");
@@ -56,30 +91,10 @@ function Cards() {
     setIsDragging(false);
     const t = 100;
 
-    if (dragOffset.x > t) swipe("right");
-    else if (dragOffset.x < -t) swipe("left");
+    if (dragOffset.x > t) swipeRight();
+    else if (dragOffset.x < -t) swipeLeft();
     else reset();
   };
-
-  function swipeRight() {
-      setDragOffset({ x: 300, y: 0 })
-      console.log('swiped right')
-      setTimeout(() => {
-      console.log('swiped right')
-        setCurrentIndex((p) => (p + 1) % items.length);
-        reset();
-      }, 300);
-
-  }
-  function swipeLeft() {
-      setDragOffset({ x: -300, y: 0 })
-      console.log('swiped left')
-      setTimeout(() => {
-        setCurrentIndex((p) => (p + 1) % items.length);
-        reset();
-      }, 300);
-
-  }
 
   const reset = () => {
     setDragOffset({ x: 0, y: 0 });
@@ -88,14 +103,45 @@ function Cards() {
 
   const rotation = dragOffset.x / 20;
 
+  if (loading) {
+    return (
+      <div className="cards-page">
+        <div className="header">
+          <h1 className="header-title"> Thrifty </h1>
+        </div>
+        <div className="loading-container">
+          <RefreshCw className="spin" size={40} />
+          <p>Loading items...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!items.length || currentIndex >= items.length) {
+    return (
+      <div className="cards-page">
+        <div className="header">
+          <h1 className="header-title"> Thrifty </h1>
+        </div>
+        <div className="empty-state">
+          <p>No more items to browse</p>
+          <button onClick={fetchItems} className="refresh-btn">
+            <RefreshCw size={20} />
+            Load More
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const currentItem = items[currentIndex];
+
   return (
     <div className="cards-page">
-      {/* Header */}
-      <div className="header"> 
+      <div className="header">
         <h1 className="header-title"> Thrifty </h1>
       </div>
 
-      {/* Cards */}
       <div className="home-card-container">
         <div
           ref={cardRef}
@@ -115,31 +161,26 @@ function Cards() {
           }
           onTouchEnd={handleEnd}
         >
-          <img src={currentItem.image} className="card-image" />
+          <img src={currentItem.image_url} className="card-image" alt={currentItem.title} />
 
           {action === "save" && <div className="overlay save">SAVE</div>}
           {action === "skip" && <div className="overlay skip">SKIP</div>}
-          {action === "message" && (
-            <div className="overlay message">MESSAGE</div>
-          )}
 
           <div className="gradient" />
           <div className="info">
-            <h2>{currentItem.name}</h2>
+            <h2>{currentItem.title}</h2>
             <div className="meta">
-              <span className="price">{currentItem.price}</span>
+              <span className="price">₱{currentItem.price}</span>
               <span className="badge">Size {currentItem.size}</span>
-              <span className="badge">{currentItem.condition}</span>
             </div>
           </div>
         </div>
 
-        {/* Actions */}
         <div className="actions">
-          <button onClick={() => swipeLeft()} className="btn">
+          <button onClick={swipeLeft} className="btn">
             <X className="icon red" />
           </button>
-          <button onClick={() => swipeRight()} className="btn">
+          <button onClick={swipeRight} className="btn">
             <Heart className="icon green" />
           </button>
         </div>
@@ -149,4 +190,3 @@ function Cards() {
 }
 
 export default Cards;
-

@@ -228,3 +228,57 @@
 .message-button:hover {
   background-color: #d4d4d4;
 }
+
+/* Loading & Empty States */
+.loading-container,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: #6b7280;
+}
+
+.loading-container p,
+.empty-state p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.refresh-btn:hover {
+  background-color: #374151;
+}
+
+/* Modal Description */
+.modal-description {
+  color: #6b7280;
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Spin animation */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}

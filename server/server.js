@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors'; // Optional but helpful
 import bodyParser from 'body-parser'
 import authRoutes from './routes/authRoutes.js'; // Your routes
+import swipeRoutes from './routes/swipeRoutes.js';
 import cookieParser from 'cookie-parser';
 import http from 'http';
 
@@ -33,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Your routes
 app.use('/api/auth', authRoutes); // Example: http://localhost:5000/api/auth/signup
+app.use('/api/swipe', swipeRoutes);
 
 // Basic route to test server
 app.get('/', (req, res) => {
