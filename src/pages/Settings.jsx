@@ -10,10 +10,12 @@ import {
 import Sidebar from '../components/Sidebar.jsx';
 import ChangePasswordModal from '../components/ChangePasswordModal.jsx';
 import { useAuth } from '../authContext';
+import { useNavigate } from 'react-router-dom';
 import './Settings.css';
 
 function Settings() {
   const { user, token, logout } = useAuth();
+  const navigate = useNavigate();
   
   const [notifications, setNotifications] = useState(true);
   const [emailNotifs, setEmailNotifs] = useState(true);
@@ -168,7 +170,7 @@ function Settings() {
 
             {/* Logout Button */}
             <div className="logout-container">
-              <button onClick={logout} className="logout-button">Log Out</button>
+              <button onClick={() => { logout(); localStorage.removeItem("token"); navigate("/"); }} className="logout-button">Log Out</button>
             </div>
 
             {/* App Info */}

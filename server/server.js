@@ -4,6 +4,7 @@ import cors from 'cors'; // Optional but helpful
 import bodyParser from 'body-parser'
 import authRoutes from './routes/authRoutes.js'; // Your routes
 import cookieParser from 'cookie-parser';
+import http from 'http';
 
 const app = express();
 
@@ -38,6 +39,8 @@ app.get('/', (req, res) => {
   res.json({ message: 'Server is running' });
 });
 
-app.listen(PORT, () => {
+const server = http.createServer(app);
+
+server.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
