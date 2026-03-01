@@ -6,7 +6,8 @@ export const getItems = async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT i.* FROM items i
-       WHERE i.id NOT IN (
+       WHERE (i.owner_id != $1 OR i.owner_id IS NULL)
+       AND i.id NOT IN (
          SELECT item_id FROM swipes WHERE user_id = $1
        )
        ORDER BY RANDOM()
