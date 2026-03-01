@@ -23,7 +23,10 @@ function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
     e.preventDefault();
 
     try{
-      const res = await axios.post('http://localhost:5050/api/auth/login', { email, password })
+      const res = await axios.post('http://localhost:5050/api/auth/login', 
+        { email, password },
+        { withCredentials: true }
+      )
       console.log(res.data)
       login(res.data.user, res.data.token)
       navigate('/dashboard')

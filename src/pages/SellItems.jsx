@@ -11,6 +11,7 @@ function SellItems() {
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('');
   const [condition, setCondition] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -22,9 +23,46 @@ function SellItems() {
     setImages(images.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ title, description, price, category, condition, images });
+    setIsLoading(true);
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5050/api/swipe/additem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          price: parseFloat(price),
+          category,
+          condition,
+          imageUrl: images[0] || null
+        })
+      });
+
+      if (response.ok) {
+        alert('Item listed successfully!');
+        setTitle('');
+        setDescription('');
+        setPrice('');
+        setCategory('');
+        setCondition('');
+        setImages([]);
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Failed to list item');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to list item');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -146,9 +184,15 @@ function SellItems() {
               </div>
             </div>
 
-            <button type="submit" className="submit-button">
-              <Upload size={20} />
-              List Item
+            <button type="submit" className="submit-button" disabled={isLoading}>
+              {isLoading ? (
+                'Listing...'
+              ) : (
+                <>
+                  <Upload size={20} />
+                  List Item
+                </>
+              )}
             </button>
           </form>
         </div>
