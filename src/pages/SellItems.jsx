@@ -30,7 +30,7 @@ function SellItems() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('{API_BASE_URL}/api/swipe/additem', {
+      const response = await `${API_BASE_URL}/api/swipe/additem`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -54,7 +54,7 @@ function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
       });
 
       const response = await axios.post(
-        '{API_BASE_URL}/api/auth/changePassword',
+        `${API_BASE_URL}/api/auth/changePassword`,
         {
           currentPassword,
           newPassword,

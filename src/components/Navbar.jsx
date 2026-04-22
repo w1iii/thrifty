@@ -21,7 +21,7 @@ function LoginModal({ isOpen, onClose }) {
     e.preventDefault();
     setLoading(true);
     try{
-      const res = await axios.post('{API_BASE_URL}/api/auth/login', 
+      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, 
         { email, password },
         { withCredentials: true }
       )

@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
     
     try {
       const res = await axios.get(
-        "{API_BASE_URL}/api/auth/refresh",
+        `${API_BASE_URL}/api/auth/refresh`,
         { withCredentials: true }
       );
       
@@ -108,7 +108,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       await axios.post(
-        "{API_BASE_URL}/api/auth/logout",
+        `${API_BASE_URL}/api/auth/logout`,
         {},
         { withCredentials: true }
       );

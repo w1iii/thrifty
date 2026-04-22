@@ -30,7 +30,7 @@ function Cards() {
   const fetchItems = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("{API_BASE_URL}/api/swipe/items", {
+      const res = await axios.get(`${API_BASE_URL}/api/swipe/items`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setItems(res.data);
@@ -48,7 +48,7 @@ function Cards() {
 
     try {
       await axios.post(
-        "{API_BASE_URL}/api/swipe/swipe",
+        `${API_BASE_URL}/api/swipe/swipe`,
         { itemId: currentItem.id, action: swipeAction },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -19,7 +19,7 @@ function SavedItems() {
   const fetchSavedItems = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("{API_BASE_URL}/api/swipe/saved", {
+      const res = await axios.get(`${API_BASE_URL}/api/swipe/saved`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setItems(res.data);
