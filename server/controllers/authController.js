@@ -26,45 +26,39 @@ function generateRefreshToken(user) {
 // ========== INIT DB (auto-create tables) ==========
 async function initDB() {
   try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        password_hash VARCHAR(255) NOT NULL,
-        first_name VARCHAR(100),
-        last_name VARCHAR(100),
-        phone_number VARCHAR(20),
-        city VARCHAR(100),
-        state VARCHAR(100),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS items (
-        id SERIAL PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        description TEXT,
-        price DECIMAL(10, 2) NOT NULL,
-        image_url TEXT,
-        category VARCHAR(100),
-        condition VARCHAR(100),
-        size VARCHAR(10),
-        seller_id INTEGER REFERENCES users(id),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS saved_items (
-        id SERIAL PRIMARY KEY,
-        user_id INTEGER REFERENCES users(id),
-        item_id INTEGER REFERENCES items(id),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        UNIQUE(user_id, item_id)
-      );
-    `);
+    await pool.query(`CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      email VARCHAR(255) UNIQUE NOT NULL,
+      password_hash VARCHAR(255) NOT NULL,
+      first_name VARCHAR(100),
+      last_name VARCHAR(100),
+      phone_number VARCHAR(20),
+      city VARCHAR(100),
+      state VARCHAR(100),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`);
+    await pool.query(`CREATE TABLE IF NOT EXISTS items (
+      id SERIAL PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      description TEXT,
+      price DECIMAL(10, 2) NOT NULL,
+      image_url TEXT,
+      category VARCHAR(100),
+      item_condition VARCHAR(100),
+      size VARCHAR(10),
+      seller_id INTEGER REFERENCES users(id),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`);
+    await pool.query(`CREATE TABLE IF NOT EXISTS saved_items (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id),
+      item_id INTEGER REFERENCES items(id),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(user_id, item_id)
+    )`);
     console.log('Database initialized');
   } catch (err) {
-    console.error('Init DB error:', err);
+    console.error('Init DB error:', err.message);
   }
 }
 
