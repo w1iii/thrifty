@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 5050;
 
 const corsOptions = {
-  origin: 'http://localhost:5173', 
+  origin: ['http://localhost:5173', 'https://thrifty-bice.vercel.app'],
   credentials: true, // Allow credentials
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
