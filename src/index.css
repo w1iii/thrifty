@@ -74,6 +74,11 @@
 body, html, #root {
   background-color: transparent;
   min-height: 100vh;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Noto Serif', serif;
 }
 
 .animated-bg {

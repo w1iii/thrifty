@@ -1,64 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Lemon&display=swap');
-
-body {
-    background-color: transparent;
-    background-image: none;
-}
-
 .main-container {
-    margin-top: 5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 4rem);
+  padding: 2rem;
 }
 
 .main-container h1 {
-    font-family: "Lemon", cursive;
-    font-size: 120px;
-    color: #1a1c1a;
-    margin-bottom: 0;
+  font-family: 'Noto Serif', serif;
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 700;
+  color: #1a1c1a;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 .main-container h2 {
-    color: #1a1c1a;
-    margin-bottom: 4rem;
+  font-family: 'Noto Serif', serif;
+  font-size: 1.5rem;
+  color: #484554;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .main-container p {
-    font-size: 22px;
-    width: 50rem;
-    text-align: center;
-    color: #484554;
+  font-size: 1.125rem;
+  max-width: 36rem;
+  text-align: center;
+  color: #484554;
+  line-height: 1.6;
 }
 
 .thrift-btn {
-    margin-top: 8rem;
-    width: 18rem;
-    height: 3rem;
-    font-size: 14px;
-    color: white;
-    background-color: #451ebb;
-    border-radius: 1rem;
-    border-style: none;
-    font-size: 20px;
-    font-weight: 600;
-    transition: 0.3s;
-    box-shadow: 0 4px 15px rgba(69, 30, 187, 0.3);
+  margin-top: 3rem;
+  padding: 1rem 3rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+  background-color: #451ebb;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(69, 30, 187, 0.3);
 }
 
 .thrift-btn:hover {
-    transition: 0.3s;
-    background-color: #5d3fd3;
-    color: whitesmoke;
-    width: 18.5rem;
-    height: 3.5rem;
-    cursor: pointer;
+  background-color: #5d3fd3;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(69, 30, 187, 0.4);
 }
 
 .browse-link {
-    margin-top: 2rem;
-    color: #484554;
-    font-size: 18px;
+  margin-top: 1.5rem;
+  color: #484554;
+  font-size: 1rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.browse-link:hover {
+  color: #1a1c1a;
 }
