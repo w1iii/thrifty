@@ -4,12 +4,11 @@
   display: flex;
   align-items:center;
   justify-content:center;
-  margin-left:20rem;
-  background-color: #ffffff;
+  margin-left: 16rem;
 }
 .settings-container {
   min-height: 100vh;
-  padding: 1.5rem;
+  padding: 4.5rem;
   width:100%;
 }
 
@@ -22,20 +21,18 @@
 .settings-header {
   display:flex;
   flex-direction: column;
-  align-items:center;
-  justify-content:center;
   margin-bottom: 2rem;
 }
 
 .settings-title {
   font-size: 2.25rem;
   font-weight: bold;
-  color: white;
+  color: black;
   margin: 0 0 0.5rem 0;
 }
 
 .settings-subtitle {
-  color: white;
+  color: black;
   margin: 0;
 }
 

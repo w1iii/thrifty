@@ -6,19 +6,24 @@
 
 .savedItems-container{
   display: flex;
-  align-items:center;
-  justify-content:center;
-  height: 100vh;
-  width:100%;
-  margin-left:10rem;
-  background-color: #ffffff;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 100vh;
+  width: 80%;
+  margin-left:17rem;
 }
 
 /* Container */
 .container {
   min-height: 100vh;
-  padding: 1rem;
-  width:70%;
+  padding: 2rem;
+  width:100%;
+}
+
+/* Gallery */
+.gallery {
+  max-width: 80rem;
+  margin: 0 auto;
 }
 
 /* Gallery */
@@ -353,10 +358,15 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .savedItems-container {
+    margin-left: 0;
+  }
+
   .item-modal {
     grid-template-columns: 1fr;
     max-height: 95vh;
     overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .modal-image-section {

@@ -118,13 +118,81 @@ function Cards() {
 
   if (!items.length || currentIndex >= items.length) {
     return (
-      <div className="flex-1 ml-64 min-h-screen p-8 lg:p-12 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-stone-500 mb-4">No more items to browse</p>
-          <button onClick={fetchItems} className="px-6 py-3 bg-indigo-600 text-white rounded-full font-semibold hover:bg-indigo-700 transition-colors">
-            Load More
-          </button>
-        </div>
+      <div className="flex-1 ml-64 min-h-screen p-8 lg:p-12">
+        <header className="max-w-4xl mx-auto mb-12 flex justify-between items-end">
+          <div>
+            <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-2 block">Curated For You</span>
+            <h2 className="text-3xl text-on-background" style={{ fontFamily: 'Noto Serif', fontWeight: 700 }}>Daily Discovery</h2>
+          </div>
+          <div className="flex gap-4 mb-2">
+            <div className="p-3 bg-white rounded-full shadow-sm cursor-pointer hover:bg-stone-50 transition-colors">
+              <SlidersHorizontal size={20} className="text-stone-600" />
+            </div>
+          </div>
+        </header>
+
+        <section className="max-w-4xl mx-auto">
+          <div className="text-center py-20">
+            <p className="text-stone-500 mb-4">No more items to browse</p>
+            <button onClick={fetchItems} className="px-6 py-3 bg-indigo-600 text-white rounded-full font-semibold hover:bg-indigo-700 transition-colors">
+              Load More
+            </button>
+          </div>
+        </section>
+
+        <section className="max-w-4xl mx-auto mt-32">
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-xl" style={{ fontFamily: 'Noto Serif', fontWeight: 600 }}>Rising Collections</h3>
+            <a className="text-indigo-600 font-bold text-sm uppercase tracking-widest border-b-2 border-indigo-100 hover:border-indigo-600 transition-colors" href="#">View All</a>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="md:col-span-2 group cursor-pointer">
+              <div className="relative h-96 overflow-hidden rounded-[24px] bg-stone-100 shadow-sm transition-all duration-500 hover:shadow-xl">
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent z-10" />
+                <img 
+                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  alt="Summer Linen" 
+                />
+                <div className="absolute inset-0 flex flex-col justify-end p-8 z-20">
+                  <span className="text-white/80 text-[10px] font-bold tracking-widest mb-2 uppercase">New Drop</span>
+                  <h4 className="text-white text-2xl mb-4" style={{ fontFamily: 'Noto Serif', fontWeight: 600 }}>Summer Minimalist</h4>
+                  <button className="w-fit bg-white text-stone-900 px-6 py-2 rounded-full font-bold text-sm">Explore</button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex flex-col gap-8">
+              <div className="flex-1 relative overflow-hidden rounded-[24px] group cursor-pointer shadow-sm hover:shadow-xl transition-all">
+                <img 
+                  src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  alt="Designer Heels" 
+                />
+                <div className="absolute inset-0 bg-stone-900/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="text-white font-bold text-sm tracking-widest uppercase">Luxury Shoes</span>
+                </div>
+              </div>
+              
+              <div className="flex-1 relative overflow-hidden rounded-[24px] cursor-pointer shadow-sm hover:shadow-xl transition-all bg-indigo-50 flex items-center justify-center p-8 text-center">
+                <div>
+                  <Heart size={40} className="text-indigo-600 mx-auto mb-4" />
+                  <h4 className="text-stone-900 font-bold mb-2">Sell Your Closet</h4>
+                  <p className="text-stone-500 text-sm">Earn up to 85% of each sale with our premium protection.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer className="mt-32 border-t border-stone-100 pt-12 pb-8 flex flex-col md:flex-row justify-between items-center text-stone-400 text-sm">
+          <p>© 2024 Thrifty Market. All rights reserved.</p>
+          <div className="flex gap-8 mt-4 md:mt-0">
+            <a className="hover:text-stone-900 transition-colors" href="#">Instagram</a>
+            <a className="hover:text-stone-900 transition-colors" href="#">Twitter</a>
+            <a className="hover:text-stone-900 transition-colors" href="#">TikTok</a>
+          </div>
+        </footer>
       </div>
     );
   }

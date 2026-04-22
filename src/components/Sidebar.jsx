@@ -1,11 +1,14 @@
 import { useAuth } from '../authContext.jsx'
 import { User, House, FolderHeart, Settings, HandHelping, LogOut, Heart, Plus, HelpCircle, Gavel, FileText } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
 
 function Sidebar() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const isActive = (path) => location.pathname === path
 
   async function handleLogout() {
     try {
@@ -19,7 +22,7 @@ function Sidebar() {
   }
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-stone-100 flex flex-col py-8 shadow-[20px_0_40px_-15px_rgba(0,0,0,0.05)] z-50">
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-white/95 border-r border-stone-100 flex flex-col py-8 shadow-[20px_0_40px_-15px_rgba(0,0,0,0.05)] z-50 backdrop-blur-sm">
       <div className="px-6">
         <h1 className="text-xl font-black text-stone-900 mb-8 tracking-tight" style={{ fontFamily: 'Noto Serif' }}>Thrifty</h1>
         <div className="flex items-center gap-3 mb-10 p-2">
@@ -33,15 +36,15 @@ function Sidebar() {
         </div>
         
         <nav className="space-y-2">
-          <Link to="/dashboard" className="flex items-center gap-3 px-4 py-3 bg-stone-50 text-indigo-600 border-r-4 border-indigo-600 font-medium transition-all duration-300">
+          <Link to="/dashboard" className={`flex items-center gap-3 px-4 py-3 font-medium transition-all duration-300 ${isActive('/dashboard') ? 'bg-stone-50 text-indigo-600 border-r-4 border-indigo-600' : 'text-stone-600 hover:bg-stone-50'}`}>
             <House size={20} />
             <span>Home</span>
           </Link>
-          <Link to="/saveditems" className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all duration-300">
+          <Link to="/saveditems" className={`flex items-center gap-3 px-4 py-3 font-medium transition-all duration-300 ${isActive('/saveditems') ? 'bg-stone-50 text-indigo-600 border-r-4 border-indigo-600' : 'text-stone-600 hover:bg-stone-50'}`}>
             <FolderHeart size={20} />
             <span>Saved Items</span>
           </Link>
-          <Link to="/settings" className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all duration-300">
+          <Link to="/settings" className={`flex items-center gap-3 px-4 py-3 font-medium transition-all duration-300 ${isActive('/settings') ? 'bg-stone-50 text-indigo-600 border-r-4 border-indigo-600' : 'text-stone-600 hover:bg-stone-50'}`}>
             <Settings size={20} />
             <span>Settings</span>
           </Link>
@@ -52,7 +55,7 @@ function Sidebar() {
         </nav>
         
         <div className="mt-12 px-4">
-          <Link to="/sellItems" className="block w-full py-3 bg-indigo-600 text-white rounded-full font-semibold text-sm shadow-md hover:bg-indigo-700 transition-colors active:scale-95 duration-200 text-center">
+          <Link to="/sellItems" className={`block w-full py-3 rounded-full font-semibold text-sm shadow-md transition-colors active:scale-95 duration-200 text-center ${isActive('/sellItems') ? 'bg-indigo-700 text-white' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}>
             Start Selling
           </Link>
         </div>

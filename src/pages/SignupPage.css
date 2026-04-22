@@ -3,11 +3,11 @@
   color: #1a1c1a;
   align-items: center;
   height: 4rem;
-  background-color: #ffffff;
   font-family: 'Noto Serif', serif;
   padding: 0.5rem;
   margin-bottom: 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  background: transparent;
 }
 
 .header-signup h1 {
@@ -21,7 +21,6 @@
   align-items: center;
   justify-content: center;
   padding: 3rem 1rem;
-  background-color: #ffffff;
   min-height: calc(100vh - 4rem);
 }
 

@@ -5,12 +5,10 @@ import './Dashboard.css';
 
 function Dashboard() {
   return (
-    <>
-      <div className="dashboard-container">
-        <Sidebar />
-        <Cards />
-      </div>
-    </>
+    <div className="dashboard-container">
+      <Sidebar />
+      <Cards />
+    </div>
   );
 }
 

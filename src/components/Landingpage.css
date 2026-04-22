@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lemon&display=swap');
 
 body {
-    background-color: #ffffff;
+    background-color: transparent;
     background-image: none;
 }
 
@@ -12,7 +12,6 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #ffffff;
 }
 
 .main-container h1 {

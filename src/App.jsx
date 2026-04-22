@@ -14,14 +14,22 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Landingpage />}/>
-      <Route path="/signup" element={<SignupPage />}/>
-      <Route path="/dashboard" element={<Dashboard/>}/>
-      <Route path="/saveditems" element={<SavedItems/>}/>
-      <Route path="/settings" element={<Settings/>}/>
-      <Route path="/sellItems" element={<SellItems/>}/>
-    </Routes>
+    <>
+      <div className="animated-bg">
+        <div className="gradient-orb gradient-orb-1" />
+        <div className="gradient-orb gradient-orb-2" />
+        <div className="gradient-orb gradient-orb-3" />
+        <div className="gradient-orb gradient-orb-4" />
+      </div>
+      <Routes>
+        <Route path="/" element={<Landingpage />}/>
+        <Route path="/signup" element={<SignupPage />}/>
+        <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route path="/saveditems" element={<SavedItems/>}/>
+        <Route path="/settings" element={<Settings/>}/>
+        <Route path="/sellItems" element={<SellItems/>}/>
+      </Routes>
+    </>
   )
 }
 
