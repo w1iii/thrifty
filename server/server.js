@@ -7,6 +7,9 @@ import swipeRoutes from './routes/swipeRoutes.js';
 import cookieParser from 'cookie-parser';
 import http from 'http';
 import pool from './db/pool.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
