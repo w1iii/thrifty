@@ -1,6 +1,5 @@
 // API Configuration
-// Change this to your production backend URL after deployment
-export const API_BASE_URL = "http://localhost:5050";
+export const API_BASE_URL = "https://thrifty-utl8.onrender.com";
 
-// For production, use:
-// export const API_BASE_URL = "https://your-backend.onrender.com";
+// For local development, use:
+// export const API_BASE_URL = "http://localhost:5050";
