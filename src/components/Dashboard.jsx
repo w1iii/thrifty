@@ -7,11 +7,8 @@ function Dashboard() {
   return (
     <>
       <div className="dashboard-container">
-      {/* Sidebar */}
         <Sidebar />
-      {/* Main Content Area */}
         <Cards />
-        
       </div>
     </>
   );

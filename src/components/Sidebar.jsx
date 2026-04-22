@@ -1,6 +1,5 @@
-import './Dashboard.css';
 import { useAuth } from '../authContext.jsx'
-import { User, PhilippinePeso, FolderHeart, House, Settings, HandHelping, LogOut } from 'lucide-react';
+import { User, House, FolderHeart, Settings, HandHelping, LogOut, Heart, Plus, HelpCircle, Gavel, FileText } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -20,28 +19,58 @@ function Sidebar() {
   }
 
   return (
-    <>
-      <div className="sidebar">
-        <div>
-          <div className="profile-section">
-            <h1 className="profile-title">{user?.username}</h1>
-            <User size={48} className="profile-icon" />
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-stone-100 flex flex-col py-8 shadow-[20px_0_40px_-15px_rgba(0,0,0,0.05)] z-50">
+      <div className="px-6">
+        <h1 className="text-xl font-black text-stone-900 mb-8 tracking-tight" style={{ fontFamily: 'Noto Serif' }}>Thrifty</h1>
+        <div className="flex items-center gap-3 mb-10 p-2">
+          <div className="w-10 h-10 rounded-full bg-surface-container overflow-hidden flex items-center justify-center">
+            <User size={24} className="text-stone-400" />
           </div>
-
-          <nav className="nav-links">
-            <Link to="/dashboard" className="nav-link"><House /> Home </Link>
-            <Link to="/saveditems" className="nav-link"><FolderHeart />Saved items </Link>
-            <Link to="/sellItems" className="nav-link"><PhilippinePeso />Sell an item </Link>
-            <Link to="/settings" className="nav-link"><Settings />Settings </Link>
-          </nav>
+          <div>
+            <p className="font-bold text-stone-900 text-sm">{user?.username || 'Guest'}</p>
+            <p className="text-xs text-stone-500 uppercase tracking-widest">Premium Member</p>
+          </div>
         </div>
-
-        <div className="footer-links">
-          <h2 className="nav-item"><HandHelping /> Help and support</h2>
-          <p onClick={handleLogout} className="nav-item"><LogOut /> Logout</p>
+        
+        <nav className="space-y-2">
+          <Link to="/dashboard" className="flex items-center gap-3 px-4 py-3 bg-stone-50 text-indigo-600 border-r-4 border-indigo-600 font-medium transition-all duration-300">
+            <House size={20} />
+            <span>Home</span>
+          </Link>
+          <Link to="/saveditems" className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all duration-300">
+            <FolderHeart size={20} />
+            <span>Saved Items</span>
+          </Link>
+          <Link to="/settings" className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all duration-300">
+            <Settings size={20} />
+            <span>Settings</span>
+          </Link>
+          <a className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all duration-300" href="#">
+            <HelpCircle size={20} />
+            <span>Support</span>
+          </a>
+        </nav>
+        
+        <div className="mt-12 px-4">
+          <Link to="/sellItems" className="block w-full py-3 bg-indigo-600 text-white rounded-full font-semibold text-sm shadow-md hover:bg-indigo-700 transition-colors active:scale-95 duration-200 text-center">
+            Start Selling
+          </Link>
         </div>
       </div>
-    </>
+      
+      <div className="mt-auto px-6 border-t border-stone-100 pt-6">
+        <div className="space-y-4">
+          <a className="flex items-center gap-3 text-xs text-stone-400 hover:text-stone-900 transition-colors" href="#">
+            <Gavel size={18} />
+            <span>Privacy</span>
+          </a>
+          <a className="flex items-center gap-3 text-xs text-stone-400 hover:text-stone-900 transition-colors" href="#">
+            <FileText size={18} />
+            <span>Terms</span>
+          </a>
+        </div>
+      </div>
+    </aside>
   );
 }
 
