@@ -2,6 +2,7 @@ import { useAuth } from '../authContext.jsx'
 import { User, House, FolderHeart, Settings, HandHelping, LogOut, Heart, Plus, HelpCircle, Gavel, FileText } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
+import { API_BASE_URL } from '../config'
 
 function Sidebar() {
   const { user, logout } = useAuth()
@@ -12,7 +13,7 @@ function Sidebar() {
 
   async function handleLogout() {
     try {
-      await axios.post("http://localhost:5050/api/auth/logout")
+      await axios.post(`${API_BASE_URL}/api/auth/logout`)
     } catch (e) {
       console.log(e)
     }

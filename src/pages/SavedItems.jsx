@@ -3,6 +3,7 @@ import Titlebar from '../components/Titlebar.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { useAuth } from '../authContext';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 import './SavedItems.css'
 
 function SavedItems() {
@@ -18,7 +19,7 @@ function SavedItems() {
   const fetchSavedItems = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5050/api/swipe/saved", {
+      const res = await axios.get("{API_BASE_URL}/api/swipe/saved", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setItems(res.data);

@@ -1,6 +1,7 @@
 // authContext.jsx
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 import axios from 'axios'
+import { API_BASE_URL } from './config'
 
 const AuthContext = createContext(null);
 
@@ -24,7 +25,7 @@ export function AuthProvider({ children }) {
     
     try {
       const res = await axios.get(
-        "http://localhost:5050/api/auth/refresh",
+        "{API_BASE_URL}/api/auth/refresh",
         { withCredentials: true }
       );
       
@@ -107,7 +108,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       await axios.post(
-        "http://localhost:5050/api/auth/logout",
+        "{API_BASE_URL}/api/auth/logout",
         {},
         { withCredentials: true }
       );

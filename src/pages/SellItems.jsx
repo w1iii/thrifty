@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Titlebar from '../components/Titlebar.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { Camera, Upload, X } from 'lucide-react';
+import { API_BASE_URL } from '../config'
 import './SellItems.css';
 
 function SellItems() {
@@ -29,7 +30,7 @@ function SellItems() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5050/api/swipe/additem', {
+      const response = await fetch('{API_BASE_URL}/api/swipe/additem', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

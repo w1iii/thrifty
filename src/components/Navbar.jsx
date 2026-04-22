@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { CircleAlert, X } from 'lucide-react';
 import { useAuth } from '../authContext.jsx'
 import { Link } from 'react-router-dom'
+import { API_BASE_URL } from '../config'
 import "./Navbar.css";
 
 function LoginModal({ isOpen, onClose }) {
@@ -20,7 +21,7 @@ function LoginModal({ isOpen, onClose }) {
     e.preventDefault();
     setLoading(true);
     try{
-      const res = await axios.post('http://localhost:5050/api/auth/login', 
+      const res = await axios.post('{API_BASE_URL}/api/auth/login', 
         { email, password },
         { withCredentials: true }
       )

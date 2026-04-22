@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { X } from 'lucide-react';
+import { API_BASE_URL } from '../config'
 import './ChangePasswordModal.css';
 
 function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
@@ -53,7 +54,7 @@ function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
       });
 
       const response = await axios.post(
-        'http://localhost:5050/api/auth/changePassword',
+        '{API_BASE_URL}/api/auth/changePassword',
         {
           currentPassword,
           newPassword,

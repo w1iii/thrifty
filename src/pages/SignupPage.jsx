@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { Mail, Lock, User, Phone, MapPin, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config'
 import './SignupPage.css';
 
 export default function SignupPage() {
@@ -74,7 +75,7 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5050/api/auth/signup', {
+      const response = await axios.post('{API_BASE_URL}/api/auth/signup', {
           email: formData.email,
           password: formData.password,
           first_name: formData.firstName,
