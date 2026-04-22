@@ -74,7 +74,7 @@ export default function SignupPage() {
 
     setIsLoading(true);
 
-    try {
+try {
       const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, {
           email: formData.email,
           password: formData.password,
@@ -84,16 +84,15 @@ export default function SignupPage() {
           city: formData.city || null,
           state: formData.state || null
         })
- 
+  
+      console.log('Signup response:', response);
       alert('Signup successful! Redirecting to login...');
-      console.log(response.data);
 
-       } catch (error) {
-      console.log(error)
-      setErrors({ submit: 'An error occurred. Please try again.' });
-    } finally {
-      setIsLoading(false);
-    }
+     } catch (error) {
+       console.log('Signup error:', error);
+       console.log('Error response:', error.response?.data);
+       setErrors({ submit: error.response?.data?.error || 'An error occurred. Please try again.' });
+     }
   };
 
   return (
