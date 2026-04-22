@@ -6,13 +6,12 @@ import { useAuth } from '../authContext.jsx'
 import { Link } from 'react-router-dom'
 import "./Navbar.css";
 
-function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
+function LoginModal({ isOpen, onClose }) {
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
   const [validLogin, setValidLogin] = useState(false)
   const [loading, setLoading] = useState(false)
   const { login } = useAuth()
-
   const navigate = useNavigate()
 
   if (!isOpen) return null;
@@ -20,17 +19,16 @@ function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try{
       const res = await axios.post('http://localhost:5050/api/auth/login', 
         { email, password },
         { withCredentials: true }
       )
       login(res.data.user, res.data.token)
+      onClose()
       navigate('/dashboard')
     }catch(err){
       setValidLogin(true)
-      console.log(err)
     } finally {
       setLoading(false);
     }
@@ -44,44 +42,47 @@ function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
   }
 
   return (
-    <div className="modal-overlay" onClick={handleClose}>
-      <div className="modal-content-form" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-btn" onClick={handleClose}>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={handleClose}>
+      <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl" onClick={e => e.stopPropagation()}>
+        <button className="absolute top-4 right-4 text-slate-400 hover:text-slate-600" onClick={handleClose}>
           <X size={20} />
         </button>
         
-        <h2>Welcome back</h2>
-        <p className="modal-subtitle">Sign in to continue thrifting</p>
+        <h2 className="text-2xl font-bold text-slate-900 mb-2">Welcome back</h2>
+        <p className="text-slate-500 mb-6">Sign in to continue thrifting</p>
 
-        <div className="login-form">
-          { validLogin && 
-            <p className="error-login">
+        <div className="space-y-4">
+          { validLogin && (
+            <div className="flex items-center gap-2 text-red-500 text-sm bg-red-50 p-3 rounded-lg">
               <CircleAlert size={16} /> Invalid email or password
-            </p>
-          }
-          <input type="email"
+            </div>
+          )}
+          <input 
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
+            className="w-full px-4 py-3 border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:border-brand focus:bg-white"
           />
-
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+            className="w-full px-4 py-3 border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:border-brand focus:bg-white"
           />
-
-          <button onClick={handleSubmit} className="submit-button" disabled={loading}>
+          <button 
+            onClick={handleSubmit} 
+            disabled={loading}
+            className="w-full bg-brand text-white py-3 rounded-lg font-semibold hover:bg-brand-dark transition-all disabled:opacity-50"
+          >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </div>
 
-        <div className="modal-footer">
-          <p>
-            Don't have an account? <Link to='/signup' onClick={handleClose}>Sign up</Link>
-          </p>
-        </div>
+        <p className="text-center mt-6 text-slate-500 text-sm">
+          Don't have an account? <Link to='/signup' onClick={handleClose} className="text-brand font-semibold hover:underline">Sign up</Link>
+        </p>
       </div>
     </div>
   );
@@ -98,20 +99,7 @@ function Navbar({ openLoginModal }) {
 
   return (
     <>
-      <div className="navbar-container">
-        <div className="navlogo">
-          <h1>Thrifty</h1>
-        </div>
-        <div className="navbuttons">
-          <button className="login-btn" onClick={() => setIsLoginOpen(true)}>Login</button>
-          <Link to="/signup" className="signup-btn">Sign Up</Link>
-        </div>
-      </div>
-
-      <LoginModal 
-        isOpen={isLoginOpen} 
-        onClose={() => setIsLoginOpen(false)}
-      />
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
   );
 }

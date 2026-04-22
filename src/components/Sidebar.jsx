@@ -22,7 +22,7 @@ function Sidebar() {
   }
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-white/95 border-r border-stone-100 flex flex-col py-8 shadow-[20px_0_40px_-15px_rgba(0,0,0,0.05)] z-50 backdrop-blur-sm">
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-white/70 border-r border-white/20 flex flex-col py-8 shadow-[20px_0_40px_-15px_rgba(0,0,0,0.05)] z-50 backdrop-blur-md">
       <div className="px-6">
         <h1 className="text-xl font-black text-stone-900 mb-8 tracking-tight" style={{ fontFamily: 'Noto Serif' }}>Thrifty</h1>
         <div className="flex items-center gap-3 mb-10 p-2">
