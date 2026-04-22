@@ -1,5 +1,5 @@
 // authContext.jsx
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 import axios from 'axios'
 
 const AuthContext = createContext(null);
@@ -15,49 +15,110 @@ export function AuthProvider({ children }) {
   });
 
   const [isLoading, setIsLoading] = useState(true);
+  const refreshTimerRef = useRef(null);
+  const isRefreshing = useRef(false);
+
+  const refreshToken = async () => {
+    if (isRefreshing.current) return;
+    isRefreshing.current = true;
+    
+    try {
+      const res = await axios.get(
+        "http://localhost:5050/api/auth/refresh",
+        { withCredentials: true }
+      );
+      
+      if (res.data.user && res.data.accessToken) {
+        setToken(res.data.accessToken);
+        setUser(res.data.user);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("token", res.data.accessToken);
+      }
+    } catch (err) {
+      console.error("Refresh error:", err);
+      if (err.response?.status === 401) {
+        logout();
+      }
+    } finally {
+      isRefreshing.current = false;
+      setIsLoading(false);
+    }
+  };
+
+  const startRefreshTimer = () => {
+    if (refreshTimerRef.current) {
+      clearInterval(refreshTimerRef.current);
+    }
+    refreshTimerRef.current = setInterval(() => {
+      refreshToken();
+    }, 14 * 60 * 1000);
+  };
 
   useEffect(() => {
-    const refresh = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5050/api/auth/refresh",
-          { withCredentials: true }
-        );
-        
-        // Only update if we have valid data
-        if (res.data.user && res.data.accessToken) {
-          setToken(res.data.accessToken);
-          setUser(res.data.user);
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-          localStorage.setItem("token", res.data.accessToken);
-        }
-      } catch (err) {
-        console.error("Refresh error:", err);
-        // Only clear if we get a 401 (unauthorized), not for other errors
-        if (err.response?.status === 401) {
-          setUser(null);
-          setToken(null);
-          localStorage.clear();
-        } else {
-          // For other errors, keep the stored user/token
-          console.log("Keeping stored auth data due to non-401 error");
-        }
-      } finally {
-        setIsLoading(false);
-      }
+    const initialRefresh = async () => {
+      await refreshToken();
+      startRefreshTimer();
     };
     
-    refresh();
-  }, []); // Empty dependency array - runs only once on mount
+    initialRefresh();
+
+    return () => {
+      if (refreshTimerRef.current) {
+        clearInterval(refreshTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+        
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+          
+          await refreshToken();
+          
+          const newToken = localStorage.getItem("token");
+          if (newToken) {
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            return axios(originalRequest);
+          }
+        }
+        
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, [token]);
 
   const login = (user, token) => {
     setUser(user);
     setToken(token);
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
+    startRefreshTimer();
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5050/api/auth/logout",
+        {},
+        { withCredentials: true }
+      );
+    } catch (err) {
+      console.log("Logout API error:", err);
+    }
+    
+    if (refreshTimerRef.current) {
+      clearInterval(refreshTimerRef.current);
+    }
+    
     setUser(null);
     setToken(null);
     localStorage.clear();
