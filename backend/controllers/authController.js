@@ -88,6 +88,7 @@ export const signup = async (req, res) => {
       `;
 
     const newUser = await pool.query(insertUserQuery, [email, password_hash, first_name, last_name, phone_number, city, state]);
+    
 
     res.status(201).json({
       message: "User created successfully",

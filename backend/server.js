@@ -78,10 +78,11 @@ app.post('/api/init', async (req, res) => {
     `);
     
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS saved_items (
+      CREATE TABLE IF NOT EXISTS swipes (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id),
         item_id INTEGER REFERENCES items(id),
+        action VARCHAR(10) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE(user_id, item_id)
       );

@@ -42,6 +42,8 @@ function Cards() {
     }
   };
 
+  
+
   const handleSwipe = async (swipeAction) => {
     const currentItem = items[currentIndex];
     if (!currentItem) return;
@@ -215,10 +217,10 @@ function Cards() {
       </header>
 
       <section className="max-w-4xl mx-auto">
-        <div className="relative group">
+        <div className="relative group flex flex-col items-center">
           <div
             ref={cardRef}
-            className={`relative aspect-[4/5] md:aspect-[16/10] overflow-hidden rounded-[32px] discovery-card-shadow bg-surface-container ${
+            className={`relative w-full max-w-2xl aspect-[3/4] md:aspect-[4/3] overflow-hidden rounded-[32px] discovery-card-shadow bg-surface-container ${
               isDragging ? "cursor-grabbing" : "cursor-grab"
             }`}
             style={{
@@ -275,7 +277,7 @@ function Cards() {
             </div>
           </div>
 
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-6 z-10">
+          <div className="mt-8 flex items-center gap-6 z-10">
             <button 
               onClick={swipeLeft} 
               className="w-16 h-16 rounded-full bg-white text-stone-900 shadow-xl border border-stone-100 flex items-center justify-center hover:bg-stone-50 active:scale-90 transition-all duration-200"
