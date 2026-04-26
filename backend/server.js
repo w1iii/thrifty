@@ -15,7 +15,6 @@ const app = express();
 
 
 const PORT = process.env.PORT || 5050;
-https://thrifty-ten.vercel.app
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://thrifty-ten.vercel.app'],
   credentials: true,
