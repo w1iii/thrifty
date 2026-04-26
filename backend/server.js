@@ -15,16 +15,15 @@ const app = express();
 
 
 const PORT = process.env.PORT || 5050;
-
+https://thrifty-ten.vercel.app
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://thrifty-bice.vercel.app'],
+  origin: ['http://localhost:5173', 'https://thrifty-ten.vercel.app'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 200
 };
 
-// ⚠️ MUST HAVE THESE MIDDLEWARES:
 app.use(cors(corsOptions)); // Enable CORS for all routes
 
 app.use(express.json()); // Parse JSON request bodies
