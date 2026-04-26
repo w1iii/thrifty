@@ -1,7 +1,7 @@
 // authContext.jsx
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 import axios from 'axios'
-import { API_BASE_URL } from './config'
+const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
 
 const AuthContext = createContext(null);
 

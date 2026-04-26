@@ -2,7 +2,7 @@ import { useAuth } from '../authContext.jsx'
 import { User, House, FolderHeart, Settings, HandHelping, LogOut, Heart, Plus, HelpCircle, Gavel, FileText } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
-import { API_BASE_URL } from '../config'
+const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
 
 function Sidebar() {
   const { user, logout } = useAuth()
@@ -63,6 +63,13 @@ function Sidebar() {
       </div>
       
       <div className="mt-auto px-6 border-t border-stone-100 pt-6">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 px-4 py-3 w-full text-stone-600 hover:bg-red-50 hover:text-red-600 transition-all duration-300 rounded-lg mb-4"
+        >
+          <LogOut size={20} />
+          <span className="font-medium">Logout</span>
+        </button>
         <div className="space-y-4">
           <a className="flex items-center gap-3 text-xs text-stone-400 hover:text-stone-900 transition-colors" href="#">
             <Gavel size={18} />

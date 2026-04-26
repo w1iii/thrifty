@@ -3,7 +3,7 @@ import Titlebar from '../components/Titlebar.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { useAuth } from '../authContext';
 import axios from 'axios';
-import { API_BASE_URL } from '../config';
+const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
 import './SavedItems.css'
 
 function SavedItems() {

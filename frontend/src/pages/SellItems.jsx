@@ -2,8 +2,9 @@ import { useState } from 'react';
 import Titlebar from '../components/Titlebar.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { Camera, Upload, X } from 'lucide-react';
-import { API_BASE_URL } from '../config'
 import './SellItems.css';
+
+const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
 
 function SellItems() {
   const [images, setImages] = useState([]);

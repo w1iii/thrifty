@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { X } from 'lucide-react';
-import { API_BASE_URL } from '../config'
+const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
 import './ChangePasswordModal.css';
 
 function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
