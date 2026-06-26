@@ -2,7 +2,7 @@ import { useAuth } from '../authContext.jsx'
 import { User, House, FolderHeart, Settings, HandHelping, LogOut, Heart, Plus, HelpCircle, Gavel, FileText } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
-const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
+import API_BASE_URL from '../config.js';
 
 function Sidebar() {
   const { user, logout } = useAuth()
@@ -13,7 +13,7 @@ function Sidebar() {
 
   async function handleLogout() {
     try {
-      await axios.post(`${API_BASE_URL}/api/auth/logout`)
+      await axios.post(`${API_BASE_URL}/api/auth/logout`, {}, { withCredentials: true })
     } catch (e) {
       console.log(e)
     }

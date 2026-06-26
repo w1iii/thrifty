@@ -1,3 +1,2 @@
-// API Configuration
-// export const API_BASE_URL = "http://localhost:5050";
-export const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
+const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
+export default API_BASE_URL;

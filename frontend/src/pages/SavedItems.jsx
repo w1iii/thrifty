@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import Titlebar from '../components/Titlebar.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { useAuth } from '../authContext';
 import axios from 'axios';
-const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
+import API_BASE_URL from '../config.js';
 import './SavedItems.css'
 
 function SavedItems() {
@@ -35,7 +34,6 @@ function SavedItems() {
       <div className="savedItems-container">
         <Sidebar />
         <div className="container">
-          <Titlebar />
           <div className="empty-state">
             <p>Please log in to view saved items.</p>
           </div>
@@ -49,7 +47,6 @@ function SavedItems() {
       <div className="savedItems-container">
         <Sidebar />
         <div className="container">
-          <Titlebar />
           <div className="loading-container">
             <p>Loading saved items...</p>
           </div>
@@ -63,7 +60,6 @@ function SavedItems() {
       <div className="savedItems-container">
         <Sidebar />
         <div className="container">
-          <Titlebar />
           <div className="empty-state">
             <p>No saved items yet.</p>
             <p>Start swiping to save items you like!</p>
@@ -78,8 +74,6 @@ function SavedItems() {
       <div className="savedItems-container">
         <Sidebar />
         <div className="container">
-          <Titlebar />
-
           <div className="gallery">
             <div className="grid">
               {items.map((item) => (
@@ -113,7 +107,7 @@ function SavedItems() {
                 className="item-modal"
                 onClick={(e) => e.stopPropagation()}
               >
-                <button 
+                <button
                   className="modal-close"
                   onClick={() => setSelectedItem(null)}
                 >
@@ -122,7 +116,7 @@ function SavedItems() {
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                   </svg>
                 </button>
-                
+
                 <div className="modal-image-section">
                   <img
                     src={selectedItem.image_url}
@@ -133,13 +127,13 @@ function SavedItems() {
                     <span>SAVED</span>
                   </div>
                 </div>
-                
+
                 <div className="modal-details-section">
                   <div className="modal-header">
                     <h2 className="modal-item-title">{selectedItem.title}</h2>
                     <span className="modal-item-price">₱{selectedItem.price}</span>
                   </div>
-                  
+
                   <div className="modal-meta">
                     <span className="meta-tag">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -156,12 +150,12 @@ function SavedItems() {
                       Thrifted
                     </span>
                   </div>
-                  
+
                   <div className="modal-description-section">
                     <h3>Description</h3>
                     <p>{selectedItem.description || "No description provided."}</p>
                   </div>
-                  
+
                   <div className="modal-seller-preview">
                     <div className="seller-avatar">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -174,7 +168,7 @@ function SavedItems() {
                       <span className="seller-name">View Profile</span>
                     </div>
                   </div>
-                  
+
                   <div className="modal-actions">
                     <button className="action-btn-secondary">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

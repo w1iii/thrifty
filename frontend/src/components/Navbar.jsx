@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { CircleAlert, X } from 'lucide-react';
 import { useAuth } from '../authContext.jsx'
 import { Link } from 'react-router-dom'
-const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
+import API_BASE_URL from '../config.js';
 import "./Navbar.css";
 
 function LoginModal({ isOpen, onClose }) {

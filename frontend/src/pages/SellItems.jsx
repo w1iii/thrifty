@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import Titlebar from '../components/Titlebar.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { Camera, Upload, X } from 'lucide-react';
+import API_BASE_URL from '../config.js';
 import './SellItems.css';
-
-const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
 
 function SellItems() {
   const [images, setImages] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -17,12 +16,14 @@ function SellItems() {
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    const newImages = files.map(file => URL.createObjectURL(file));
-    setImages([...images, ...newImages].slice(0, 5));
+    const newPreviews = files.map(file => URL.createObjectURL(file));
+    setImages([...images, ...newPreviews].slice(0, 5));
+    setImageFiles([...imageFiles, ...files].slice(0, 5));
   };
 
   const removeImage = (index) => {
     setImages(images.filter((_, i) => i !== index));
+    setImageFiles(imageFiles.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e) => {
@@ -31,20 +32,23 @@ function SellItems() {
 
     try {
       const token = localStorage.getItem('token');
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('price', parseFloat(price));
+      formData.append('category', category);
+      formData.append('condition', condition);
+
+      if (imageFiles.length > 0) {
+        formData.append('image', imageFiles[0]);
+      }
+
       const response = await fetch(`${API_BASE_URL}/api/swipe/additem`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({
-          title,
-          description,
-          price: parseFloat(price),
-          category,
-          condition,
-          imageUrl: images[0] || null
-        })
+        body: formData
       });
 
       if (response.ok) {
@@ -55,6 +59,7 @@ function SellItems() {
         setCategory('');
         setCondition('');
         setImages([]);
+        setImageFiles([]);
       } else {
         const data = await response.json();
         alert(data.error || 'Failed to list item');
@@ -71,8 +76,6 @@ function SellItems() {
     <div className="sellItems-container">
       <Sidebar />
       <div className="container">
-        <Titlebar />
-
         <div className="sell-form-container">
           <h1 className="sell-title">List an Item</h1>
           <p className="sell-subtitle">Fill in the details to list your item for sale</p>
@@ -85,20 +88,20 @@ function SellItems() {
                   <label className="upload-button">
                     <Camera size={32} />
                     <span>Add Photos</span>
-                    <input 
-                      type="file" 
-                      multiple 
-                      accept="image/*" 
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
                       onChange={handleImageUpload}
-                      hidden 
+                      hidden
                     />
                   </label>
                 )}
                 {images.map((img, index) => (
                   <div key={index} className="preview-image">
                     <img src={img} alt={`Preview ${index + 1}`} />
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="remove-image"
                       onClick={() => removeImage(index)}
                     >

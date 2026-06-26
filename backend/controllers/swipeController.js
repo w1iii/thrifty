@@ -2,7 +2,7 @@ import pool from '../db/pool.js';
 
 export const getItems = async (req, res) => {
   const userId = req.user.id;
-  
+
   try {
     const result = await pool.query(
       `SELECT i.* FROM items i
@@ -37,7 +37,7 @@ export const swipeItem = async (req, res) => {
     await pool.query(
       `INSERT INTO swipes (user_id, item_id, action)
        VALUES ($1, $2, $3)
-       ON CONFLICT (user_id, item_id) 
+       ON CONFLICT (user_id, item_id)
        DO UPDATE SET action = $3`,
       [userId, itemId, action]
     );
@@ -53,7 +53,7 @@ export const getSavedItems = async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT i.*, s.created_at as saved_at 
+      `SELECT i.*, s.created_at as saved_at
        FROM items i
        JOIN swipes s ON i.id = s.item_id
        WHERE s.user_id = $1 AND s.action = 'liked'

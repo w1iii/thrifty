@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { Mail, Lock, User, Phone, MapPin, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
-const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
+import API_BASE_URL from '../config.js';
 import './SignupPage.css';
 
 export default function SignupPage() {
@@ -85,12 +85,10 @@ try {
           state: formData.state || null
         })
   
-      console.log('Signup response:', response);
       alert('Signup successful! Redirecting to login...');
 
      } catch (error) {
-       console.log('Signup error:', error);
-       console.log('Error response:', error.response?.data);
+
        setErrors({ submit: error.response?.data?.error || 'An error occurred. Please try again.' });
      }
   };

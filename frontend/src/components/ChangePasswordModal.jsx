@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { X } from 'lucide-react';
-const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
+import API_BASE_URL from '../config.js';
 import './ChangePasswordModal.css';
 
 function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
@@ -17,7 +17,6 @@ function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
     setError('');
     setSuccess('');
 
-    // Validation
     if (!currentPassword || !newPassword || !confirmPassword) {
       setError('All fields are required');
       return;
@@ -28,8 +27,8 @@ function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
       return;
     }
 
-    if (newPassword.length < 6) {
-      setError('New password must be at least 6 characters');
+    if (newPassword.length < 8) {
+      setError('New password must be at least 8 characters');
       return;
     }
 
@@ -41,18 +40,6 @@ function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
     setIsSubmitting(true);
 
     try {
-      console.log('=== CHANGE PASSWORD REQUEST ===');
-      console.log('accessToken:', accessToken);
-      console.log('currentPassword:', currentPassword ? '✓ Set' : '✗ Empty');
-      console.log('newPassword:', newPassword ? '✓ Set' : '✗ Empty');
-      console.log('confirmPassword:', confirmPassword ? '✓ Set' : '✗ Empty');
-      console.log('Passwords match:', newPassword === confirmPassword);
-      console.log('Request body:', {
-        currentPassword,
-        newPassword,
-        confirmPassword
-      });
-
       const response = await axios.post(
         `${API_BASE_URL}/api/auth/changePassword`,
         {
@@ -72,13 +59,11 @@ function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
       setNewPassword('');
       setConfirmPassword('');
 
-      // Close modal after 1.5 seconds
       setTimeout(() => {
         onClose();
         onSuccess?.();
       }, 1500);
     } catch (err) {
-      console.error('Error response:', err.response?.data);
       setError(err.response?.data?.message || err.message || 'Failed to change password. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -90,11 +75,10 @@ function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        {/* Modal Header */}
         <div className="modal-header">
           <h2>Change Password</h2>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="close-button"
             aria-label="Close modal"
           >
@@ -102,7 +86,6 @@ function ChangePasswordModal({ isOpen, onClose, accessToken, onSuccess }) {
           </button>
         </div>
 
-        {/* Modal Body */}
         <div className="modal-body">
           <div className="form-group">
             <label htmlFor="currentPassword">Current Password</label>

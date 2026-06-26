@@ -8,7 +8,7 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../authContext";
 import axios from "axios";
-const API_BASE_URL = "https://thrifty-qdg3.onrender.com";
+import API_BASE_URL from "../config.js";
 import "./Cards.css";
 
 function Cards() {
@@ -270,7 +270,7 @@ function Cards() {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-stone-400 text-sm uppercase font-bold tracking-wider">Seller</span>
-                    <span className="text-stone-900 font-semibold text-sm underline underline-offset-4 decoration-indigo-200">TheThriftStore_PH</span>
+                    <span className="text-stone-900 font-semibold text-sm underline underline-offset-4 decoration-indigo-200">Thrifty Seller</span>
                   </div>
                 </div>
               </div>

@@ -24,10 +24,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Landingpage />}/>
         <Route path="/signup" element={<SignupPage />}/>
-        <Route path="/dashboard" element={<Dashboard/>}/>
-        <Route path="/saveditems" element={<SavedItems/>}/>
-        <Route path="/settings" element={<Settings/>}/>
-        <Route path="/sellItems" element={<SellItems/>}/>
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/>
+        <Route path="/saveditems" element={<ProtectedRoute><SavedItems /></ProtectedRoute>}/>
+        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>}/>
+        <Route path="/sellItems" element={<ProtectedRoute><SellItems /></ProtectedRoute>}/>
       </Routes>
     </>
   )

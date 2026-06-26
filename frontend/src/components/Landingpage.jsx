@@ -1,9 +1,13 @@
 import Navbar from './Navbar.jsx'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuth } from '../authContext.jsx'
 import './Landingpage.css'
 
 function Landingpage() {
+  const { user } = useAuth()
+  if (user) return <Navigate to="/dashboard" replace />
+
   const [showLogin, setShowLogin] = useState(false)
 
   return (
@@ -51,9 +55,7 @@ function Landingpage() {
               <Link to="/signup" className="bg-brand text-white px-10 py-4 rounded-custom text-lg font-semibold hover:bg-brand-dark transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                 Start thrifting
               </Link>
-              <Link to="/dashboard" className="text-sm font-medium text-slate-400 hover:text-slate-600 transition-colors underline underline-offset-4 decoration-slate-300 hover:decoration-brand">
-                Browse as guest →
-              </Link>
+
             </div>
           </div>
         </section>
