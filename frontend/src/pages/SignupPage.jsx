@@ -74,8 +74,8 @@ export default function SignupPage() {
 
     setIsLoading(true);
 
-try {
-      const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, {
+    try {
+      await axios.post(`${API_BASE_URL}/api/auth/signup`, {
           email: formData.email,
           password: formData.password,
           first_name: formData.firstName,
@@ -84,11 +84,10 @@ try {
           city: formData.city || null,
           state: formData.state || null
         })
-  
+
       alert('Signup successful! Redirecting to login...');
 
      } catch (error) {
-
        setErrors({ submit: error.response?.data?.error || 'An error occurred. Please try again.' });
      }
   };

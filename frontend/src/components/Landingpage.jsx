@@ -6,27 +6,27 @@ import './Landingpage.css'
 
 function Landingpage() {
   const { user } = useAuth()
-  if (user) return <Navigate to="/dashboard" replace />
-
   const [showLogin, setShowLogin] = useState(false)
+
+  if (user) return <Navigate to="/dashboard" replace />
 
   return (
     <>
       <Navbar openLoginModal={showLogin} />
-      
+
       <header className="w-full px-6 py-6 lg:px-12 flex justify-between items-center bg-transparent z-10">
         <div className="flex items-center">
           <Link to="/" className="text-3xl font-bold tracking-tight text-slate-900">Thrifty</Link>
         </div>
         <nav className="flex items-center space-x-8">
-          <button 
-            className="text-sm font-medium hover:text-brand transition-colors duration-200" 
+          <button
+            className="text-sm font-medium hover:text-brand transition-colors duration-200"
             onClick={() => setShowLogin(true)}
           >
             Login
           </button>
-          <Link 
-            className="bg-brand text-white px-6 py-2.5 rounded-custom text-sm font-medium hover:bg-brand-dark transition-all duration-300 shadow-sm hover:shadow-md" 
+          <Link
+            className="bg-brand text-white px-6 py-2.5 rounded-custom text-sm font-medium hover:bg-brand-dark transition-all duration-300 shadow-sm hover:shadow-md"
             to="/signup"
           >
             Sign Up
@@ -55,7 +55,6 @@ function Landingpage() {
               <Link to="/signup" className="bg-brand text-white px-10 py-4 rounded-custom text-lg font-semibold hover:bg-brand-dark transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                 Start thrifting
               </Link>
-
             </div>
           </div>
         </section>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import {
   Heart,
   X,
@@ -5,7 +6,7 @@ import {
   ShoppingBag,
   SlidersHorizontal
 } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useAuth } from "../authContext";
 import axios from "axios";
 import API_BASE_URL from "../config.js";
@@ -23,11 +24,7 @@ function Cards() {
 
   const cardRef = useRef(null);
 
-  useEffect(() => {
-    fetchItems();
-  }, []);
-
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     try {
       setLoading(true);
       const res = await axios.get(`${API_BASE_URL}/api/swipe/items`, {
@@ -40,9 +37,11 @@ function Cards() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
-  
+  useEffect(() => {
+    fetchItems();
+  }, [fetchItems]);
 
   const handleSwipe = async (swipeAction) => {
     const currentItem = items[currentIndex];
@@ -164,7 +163,7 @@ function Cards() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex flex-col gap-8">
               <div className="flex-1 relative overflow-hidden rounded-[24px] group cursor-pointer shadow-sm hover:shadow-xl transition-all">
                 <img 
@@ -176,7 +175,7 @@ function Cards() {
                   <span className="text-white font-bold text-sm tracking-widest uppercase">Luxury Shoes</span>
                 </div>
               </div>
-              
+
               <div className="flex-1 relative overflow-hidden rounded-[24px] cursor-pointer shadow-sm hover:shadow-xl transition-all bg-indigo-50 flex items-center justify-center p-8 text-center">
                 <div>
                   <Heart size={40} className="text-indigo-600 mx-auto mb-4" />
@@ -326,7 +325,7 @@ function Cards() {
               </div>
             </div>
           </div>
-          
+
           <div className="flex flex-col gap-8">
             <div className="flex-1 relative overflow-hidden rounded-[24px] group cursor-pointer shadow-sm hover:shadow-xl transition-all">
               <img 
@@ -338,7 +337,7 @@ function Cards() {
                 <span className="text-white font-bold text-sm tracking-widest uppercase">Luxury Shoes</span>
               </div>
             </div>
-            
+
             <div className="flex-1 relative overflow-hidden rounded-[24px] cursor-pointer shadow-sm hover:shadow-xl transition-all bg-indigo-50 flex items-center justify-center p-8 text-center">
               <div>
                 <Heart size={40} className="text-indigo-600 mx-auto mb-4" />

@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { 
-  User, 
-  Lock, 
-  Bell, 
+import { useState } from 'react';
+import {
+  User,
+  Lock,
+  Bell,
   HelpCircle,
   ChevronRight,
 } from 'lucide-react';
@@ -16,12 +15,11 @@ import './Settings.css';
 function Settings() {
   const { user, token, logout } = useAuth();
   const navigate = useNavigate();
-  
+
   const [notifications, setNotifications] = useState(true);
   const [emailNotifs, setEmailNotifs] = useState(true);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
 
-  // Show login message if not authenticated
   if (!user || !token) {
     return (
       <div className="settings-main-container">
@@ -48,8 +46,8 @@ function Settings() {
       title: 'Privacy & Security',
       icon: <Lock className="icon" />,
       items: [
-        { 
-          label: 'Change Password', 
+        {
+          label: 'Change Password',
           value: '',
           action: 'changePassword'
         },
@@ -59,16 +57,16 @@ function Settings() {
       title: 'Notifications',
       icon: <Bell className="icon" />,
       items: [
-        { 
-          label: 'Push Notifications', 
-          value: '', 
+        {
+          label: 'Push Notifications',
+          value: '',
           toggle: true,
           state: notifications,
           setState: setNotifications
         },
-        { 
-          label: 'Email Notifications', 
-          value: '', 
+        {
+          label: 'Email Notifications',
+          value: '',
           toggle: true,
           state: emailNotifs,
           setState: setEmailNotifs
@@ -104,17 +102,14 @@ function Settings() {
         <Sidebar />
         <div className="settings-container">
           <div className="settings-wrapper">
-            {/* Header */}
             <div className="settings-header">
               <h1 className="settings-title">Settings</h1>
               <p className="settings-subtitle">Manage your account and preferences</p>
             </div>
 
-            {/* Settings Sections */}
             <div className="settings-sections">
               {settingSections.map((section, idx) => (
                 <div key={idx} className="settings-section">
-                  {/* Section Header */}
                   <div className="section-header">
                     <div className="section-icon">
                       {section.icon}
@@ -124,11 +119,10 @@ function Settings() {
                     </h2>
                   </div>
 
-                  {/* Section Items */}
                   <div className="section-items">
                     {section.items.map((item, itemIdx) => (
-                      <div 
-                        key={itemIdx} 
+                      <div
+                        key={itemIdx}
                         className={`setting-item ${item.action ? 'clickable' : ''}`}
                         onClick={() => item.action && handleSettingClick(item)}
                       >
@@ -138,7 +132,7 @@ function Settings() {
                             {item.label}
                           </span>
                         </div>
-                        
+
                         <div className="setting-value">
                           {item.toggle ? (
                             <button
@@ -168,12 +162,10 @@ function Settings() {
               ))}
             </div>
 
-            {/* Logout Button */}
             <div className="logout-container">
               <button onClick={() => { logout(); localStorage.removeItem("token"); navigate("/"); }} className="logout-button">Log Out</button>
             </div>
 
-            {/* App Info */}
             <div className="app-info">
               <p>SecondLife Marketplace</p>
               <p className="copyright">© 2024 All rights reserved</p>
@@ -182,14 +174,11 @@ function Settings() {
         </div>
       </div>
 
-      {/* Change Password Modal */}
-      <ChangePasswordModal 
+      <ChangePasswordModal
         isOpen={passwordModalOpen}
         onClose={() => setPasswordModalOpen(false)}
         accessToken={token}
-        onSuccess={() => {
-          // Optional: Show success toast or handle after password change
-        }}
+        onSuccess={() => {}}
       />
     </>
   );

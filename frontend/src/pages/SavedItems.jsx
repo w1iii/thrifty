@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect, useCallback } from 'react';
 import Sidebar from '../components/Sidebar.jsx';
 import { useAuth } from '../authContext';
 import axios from 'axios';
@@ -11,11 +12,7 @@ function SavedItems() {
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  useEffect(() => {
-    fetchSavedItems();
-  }, []);
-
-  const fetchSavedItems = async () => {
+  const fetchSavedItems = useCallback(async () => {
     try {
       setLoading(true);
       const res = await axios.get(`${API_BASE_URL}/api/swipe/saved`, {
@@ -27,7 +24,11 @@ function SavedItems() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
+
+  useEffect(() => {
+    fetchSavedItems();
+  }, [fetchSavedItems]);
 
   if (!user || !token) {
     return (
