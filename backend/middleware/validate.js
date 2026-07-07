@@ -17,9 +17,9 @@ export const signupSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters'),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
-  phone_number: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
+  phone_number: z.string().nullable().optional(),
+  city: z.string().nullable().optional(),
+  state: z.string().nullable().optional(),
 });
 
 export const loginSchema = z.object({

@@ -41,6 +41,17 @@ describe('signupSchema', () => {
     expect(result.success).toBe(true);
   });
 
+  it('accepts null optional fields', () => {
+    const result = signupSchema.safeParse({
+      email: 'a@b.com',
+      password: 'password123',
+      phone_number: null,
+      city: null,
+      state: null,
+    });
+    expect(result.success).toBe(true);
+  });
+
   it('rejects short password', () => {
     const result = signupSchema.safeParse({ email: 'a@b.com', password: '123' });
     expect(result.success).toBe(false);
