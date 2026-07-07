@@ -15,11 +15,11 @@ export function validate(schema) {
 export const signupSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
-  phone_number: z.string().nullable().optional(),
-  city: z.string().nullable().optional(),
-  state: z.string().nullable().optional(),
+  first_name: z.string().nullable().default(null),
+  last_name: z.string().nullable().default(null),
+  phone_number: z.string().nullable().default(null),
+  city: z.string().nullable().default(null),
+  state: z.string().nullable().default(null),
 });
 
 export const loginSchema = z.object({
@@ -43,10 +43,10 @@ export const swipeSchema = z.object({
 
 export const addItemSchema = z.object({
   title: z.string().min(1, 'Title is required'),
-  description: z.string().optional(),
+  description: z.string().nullable().default(null),
   price: z.string().or(z.number()).refine(val => !isNaN(Number(val)) && Number(val) > 0, {
     message: 'Price must be a positive number',
   }),
-  category: z.string().optional(),
-  condition: z.string().optional(),
+  category: z.string().nullable().default(null),
+  condition: z.string().nullable().default(null),
 });

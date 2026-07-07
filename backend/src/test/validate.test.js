@@ -52,6 +52,19 @@ describe('signupSchema', () => {
     expect(result.success).toBe(true);
   });
 
+  it('defaults omitted optional fields to null', () => {
+    const result = signupSchema.safeParse({
+      email: 'a@b.com',
+      password: 'password123',
+    });
+    expect(result.success).toBe(true);
+    expect(result.data?.first_name).toBeNull();
+    expect(result.data?.last_name).toBeNull();
+    expect(result.data?.phone_number).toBeNull();
+    expect(result.data?.city).toBeNull();
+    expect(result.data?.state).toBeNull();
+  });
+
   it('rejects short password', () => {
     const result = signupSchema.safeParse({ email: 'a@b.com', password: '123' });
     expect(result.success).toBe(false);
