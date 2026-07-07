@@ -1,9 +1,6 @@
 import pool from '../db/pool.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 function generateAccessToken(user) {
   return jwt.sign(
@@ -23,14 +20,6 @@ function generateRefreshToken(user) {
 
 export const signup = async (req, res) => {
   const { email, password, first_name, last_name, phone_number, city, state } = req.body;
-
-  if (!password || !email) {
-    return res.status(400).json({ error: "Email and password are required" });
-  }
-
-  if (password.length < 8) {
-    return res.status(400).json({ error: "Password must be at least 8 characters" });
-  }
 
   try {
     const existingEmail = await pool.query("SELECT id FROM users WHERE email = $1", [email]);
@@ -60,10 +49,6 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required" });
-  }
 
   try {
     const query = "SELECT * FROM users WHERE email = $1";
@@ -118,10 +103,10 @@ export const logout = (req, res) => {
 export const refresh = async (req, res) => {
   const token = req.cookies.refreshToken;
 
-  if (!token) return res.status(401);
+  if (!token) return res.status(401).json({ error: "Refresh token required" });
 
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
-    if (err) return res.sendStatus(403);
+    if (err) return res.status(403).json({ error: "Invalid or expired refresh token" });
 
     const userRes = await pool.query(
       "SELECT id, email FROM users WHERE id = $1",
@@ -129,7 +114,7 @@ export const refresh = async (req, res) => {
     );
 
     const user = userRes.rows[0];
-    if (!user) return res.status(403);
+    if (!user) return res.status(403).json({ error: "User not found" });
 
     const newAccessToken = generateAccessToken(user);
     return res.json({ accessToken: newAccessToken });
@@ -145,7 +130,7 @@ export const getData = async (req, res) => {
   try {
     const result = await pool.query(dataQuery, [userId]);
 
-    if (result.rows.length <= 0) return res.status(404).json({ error: 'user not found' });
+    if (result.rows.length <= 0) return res.status(404).json({ error: 'User not found' });
 
     const user = result.rows[0];
     return res.status(200).json({
@@ -160,7 +145,7 @@ export const getData = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.sendStatus(500);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
@@ -171,25 +156,7 @@ export const changePassword = async (req, res) => {
 
     if (!userId) {
       return res.status(401).json({
-        message: 'Unauthorized - No user ID in token'
-      });
-    }
-
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      return res.status(400).json({
-        message: 'All fields are required'
-      });
-    }
-
-    if (newPassword !== confirmPassword) {
-      return res.status(400).json({
-        message: 'New passwords do not match'
-      });
-    }
-
-    if (newPassword.length < 8) {
-      return res.status(400).json({
-        message: 'New password must be at least 8 characters'
+        error: 'Unauthorized - No user ID in token'
       });
     }
 
@@ -198,7 +165,7 @@ export const changePassword = async (req, res) => {
 
     if (userResult.rows.length === 0) {
       return res.status(404).json({
-        message: 'User not found'
+        error: 'User not found'
       });
     }
 
@@ -206,7 +173,7 @@ export const changePassword = async (req, res) => {
 
     if (!user.password_hash) {
       return res.status(400).json({
-        message: 'User account not properly configured. Please contact support.'
+        error: 'User account not properly configured. Please contact support.'
       });
     }
 
@@ -216,13 +183,13 @@ export const changePassword = async (req, res) => {
       isPasswordValid = await bcrypt.compare(currentPassword, user.password_hash);
     } catch (bcryptError) {
       return res.status(400).json({
-        message: 'Invalid password format. Please try again.'
+        error: 'Invalid password format. Please try again.'
       });
     }
 
     if (!isPasswordValid) {
       return res.status(401).json({
-        message: 'Current password is incorrect'
+        error: 'Current password is incorrect'
       });
     }
 
@@ -234,7 +201,7 @@ export const changePassword = async (req, res) => {
 
     if (isSamePassword) {
       return res.status(400).json({
-        message: 'New password must be different from current password'
+        error: 'New password must be different from current password'
       });
     }
 
@@ -251,7 +218,7 @@ export const changePassword = async (req, res) => {
 
     if (updateResult.rows.length === 0) {
       return res.status(500).json({
-        message: 'Failed to update password'
+        error: 'Failed to update password'
       });
     }
 
@@ -261,7 +228,7 @@ export const changePassword = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: 'Server error. Please try again later.'
+      error: 'Server error. Please try again later.'
     });
   }
 };
